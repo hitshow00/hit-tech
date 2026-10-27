@@ -9,7 +9,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  poweredByHeader: false,
+  // Les images sont déjà pré-optimisées en WebP par sharp
+  images: {
+    unoptimized: true,
+  },
   // Modules natifs exécutés uniquement côté serveur
   serverExternalPackages: ["@node-rs/argon2", "sharp"],
   experimental: {
