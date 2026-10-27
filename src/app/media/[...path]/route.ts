@@ -3,6 +3,7 @@ import path from "node:path";
 import { NextResponse, type NextRequest } from "next/server";
 
 const UPLOAD_ROOT = path.resolve(/*turbopackIgnore: true*/ process.env.UPLOAD_DIR || "./storage/uploads");
+const PUBLIC_MEDIA_ROOT = path.resolve(/*turbopackIgnore: true*/ "./public/media");
 
 export async function GET(
   request: NextRequest,
@@ -15,8 +16,17 @@ export async function GET(
   }
 
   // Protection contre le path traversal
-  const target = path.resolve(UPLOAD_ROOT, ...segments);
-  if (!target.startsWith(UPLOAD_ROOT)) {
+  const targetUpload = path.resolve(UPLOAD_ROOT, ...segments);
+  const targetPublic = path.resolve(PUBLIC_MEDIA_ROOT, ...segments);
+
+  let target = targetUpload;
+  try {
+    await fs.access(target);
+  } catch {
+    target = targetPublic;
+  }
+
+  if (!target.startsWith(UPLOAD_ROOT) && !target.startsWith(PUBLIC_MEDIA_ROOT)) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
