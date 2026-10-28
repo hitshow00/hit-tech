@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma, Role, ProductStatus, OrderStatus, PaymentStatus, ReviewStatus, DiscountType } from "@/lib/prisma";
-import { requireStaffOrAdmin } from "@/lib/auth";
+import { requireStaffOrAdmin, requireAdmin } from "@/lib/auth";
 import { logAudit } from "@/lib/audit";
 import { processAndSaveProductImage } from "@/lib/images";
 
@@ -116,14 +116,15 @@ export async function saveProductAction(formData: FormData) {
     const singleImage = formData.get("image") as File | null;
     const allImages: File[] = [];
 
+    const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 Mo max par image
     if (imageFiles && imageFiles.length > 0) {
       for (const f of imageFiles) {
-        if (f && f.size > 0 && f.type.startsWith("image/")) {
+        if (f && f.size > 0 && f.size <= MAX_IMAGE_SIZE && f.type.startsWith("image/")) {
           allImages.push(f);
         }
       }
     }
-    if (singleImage && singleImage.size > 0 && singleImage.type.startsWith("image/")) {
+    if (singleImage && singleImage.size > 0 && singleImage.size <= MAX_IMAGE_SIZE && singleImage.type.startsWith("image/")) {
       if (!allImages.some(img => img.name === singleImage.name && img.size === singleImage.size)) {
         allImages.push(singleImage);
       }
@@ -136,21 +137,25 @@ export async function saveProductAction(formData: FormData) {
 
       for (let i = 0; i < allImages.length; i++) {
         const file = allImages[i];
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const imgInfo = await processAndSaveProductImage(buffer, `${product.slug}-${i}`);
+        try {
+          const buffer = Buffer.from(await file.arrayBuffer());
+          const imgInfo = await processAndSaveProductImage(buffer, `${product.slug}-${i}`);
 
-        await prisma.productImage.create({
-          data: {
-            productId: product.id,
-            url: imgInfo.url,
-            mediumUrl: imgInfo.mediumUrl,
-            thumbUrl: imgInfo.thumbUrl,
-            width: imgInfo.width,
-            height: imgInfo.height,
-            alt: `${product.name} - Vue ${currentImagesCount + i + 1}`,
-            position: currentImagesCount + i,
-          },
-        });
+          await prisma.productImage.create({
+            data: {
+              productId: product.id,
+              url: imgInfo.url,
+              mediumUrl: imgInfo.mediumUrl,
+              thumbUrl: imgInfo.thumbUrl,
+              width: imgInfo.width,
+              height: imgInfo.height,
+              alt: `${product.name} - Vue ${currentImagesCount + i + 1}`,
+              position: currentImagesCount + i,
+            },
+          });
+        } catch (imgErr) {
+          console.warn(`[Images] Échec de traitement de l'image ${file.name} pour le produit ${product.id}:`, imgErr);
+        }
       }
     }
 
@@ -491,7 +496,7 @@ export async function bulkUpdateOrderStatusAction(orderIds: string[], newStatus:
 
 export async function toggleUserStatusAction(userId: string, isActive: boolean) {
   try {
-    const admin = await requireStaffOrAdmin();
+    const admin = await requireAdmin();
     if (admin.id === userId) {
       return { success: false, error: "Vous ne pouvez pas modifier votre propre compte." };
     }
@@ -518,7 +523,7 @@ export async function toggleUserStatusAction(userId: string, isActive: boolean) 
 
 export async function updateUserRoleAction(userId: string, role: Role) {
   try {
-    const admin = await requireStaffOrAdmin();
+    const admin = await requireAdmin();
     if (admin.id === userId) {
       return { success: false, error: "Vous ne pouvez pas modifier votre propre rôle." };
     }

@@ -1,10 +1,13 @@
 "use server";
 
 import crypto from "node:crypto";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { prisma, OrderStatus, PaymentMethod, PaymentStatus, ProductStatus } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { getCartSummary } from "@/lib/cart";
+import { orderInputSchema } from "@/lib/validations";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export interface CreateOrderInput {
   fullName: string;
@@ -20,6 +23,31 @@ export interface CreateOrderInput {
 
 export async function createOrderAction(input: CreateOrderInput) {
   try {
+    // 1. Validation stricte des entrées via Zod
+    const parsed = orderInputSchema.safeParse(input);
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message || "Données de commande invalides.";
+      return { success: false, error: firstError };
+    }
+    const validatedData = parsed.data;
+
+    // 2. Protection contre les abus et le spam (Rate Limiting)
+    const headerList = await headers();
+    const forwardedFor = headerList.get("x-forwarded-for");
+    const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : "anonymous";
+    const rateCheck = checkRateLimit(`${ip}:${validatedData.email}`, {
+      keyPrefix: "create_order",
+      maxRequests: 10,
+      windowMs: 15 * 60 * 1000, // 10 commandes max par 15 min par IP/email
+    });
+
+    if (!rateCheck.success) {
+      return {
+        success: false,
+        error: `Trop de tentatives de commande. Veuillez patienter ${rateCheck.resetInSeconds} secondes avant de réessayer.`,
+      };
+    }
+
     const { user } = await getCurrentUser();
     const cartSummary = await getCartSummary(user?.id);
 
@@ -27,13 +55,9 @@ export async function createOrderAction(input: CreateOrderInput) {
       return { success: false, error: "Votre panier est vide." };
     }
 
-    if (!input.fullName.trim() || !input.email.trim() || !input.phone.trim() || !input.addressLine1.trim() || !input.cityId) {
-      return { success: false, error: "Veuillez renseigner toutes les informations de livraison obligatoires." };
-    }
-
-    // Récupérer la ville de livraison sélectionnée
+    // 3. Récupérer et vérifier la ville de livraison sélectionnée
     const shippingCity = await prisma.shippingCity.findUnique({
-      where: { id: input.cityId },
+      where: { id: validatedData.cityId },
     });
 
     if (!shippingCity || !shippingCity.isActive) {
@@ -42,7 +66,7 @@ export async function createOrderAction(input: CreateOrderInput) {
 
     const settings = await prisma.storeSettings.findFirst();
 
-    // Vérification des stocks et calcul rigoureux côté serveur
+    // 4. Vérification et recalcul rigoureux des prix & stocks côté serveur
     let liveSubtotal = 0;
     const verifiedItems: Array<{
       productId: string;
@@ -86,7 +110,7 @@ export async function createOrderAction(input: CreateOrderInput) {
       });
     }
 
-    // Calcul de la remise si code promo
+    // 5. Calcul de la remise si code promo actif et valide
     let discountTotal = 0;
     let validDiscountCode: string | null = null;
     if (cartSummary.discountCode) {
@@ -112,39 +136,39 @@ export async function createOrderAction(input: CreateOrderInput) {
 
     const netSubtotal = Math.max(0, liveSubtotal - discountTotal);
 
-    // Frais de livraison réels selon la ville et le seuil de gratuité
+    // 6. Frais de livraison réels selon la ville et le seuil de gratuité
     const freeThreshold = settings?.freeShippingThreshold ?? null;
     const qualifiesForFreeShipping = freeThreshold !== null && netSubtotal >= freeThreshold;
     const shippingFee = qualifiesForFreeShipping ? 0 : shippingCity.fee;
     const total = netSubtotal + shippingFee;
 
-    // Vérification du mode de paiement
-    if (input.paymentMethod === "COD") {
-      if (!settings?.codEnabled || !shippingCity.codAvailable) {
-        return { success: false, error: "Le paiement à la livraison n'est pas disponible pour cette destination." };
-      }
-      if (settings.codMaxAmount && total > settings.codMaxAmount) {
-        const maxDH = Math.round(settings.codMaxAmount / 100);
-        return {
-          success: false,
-          error: `Le montant total (${Math.round(total / 100)} DH) dépasse la limite autorisée pour le paiement à la livraison (${maxDH} DH). Veuillez choisir le paiement par carte.`,
-        };
-      }
-    } else if (input.paymentMethod === "STRIPE") {
-      if (!process.env.STRIPE_SECRET_KEY) {
-        return {
-          success: false,
-          error: "Le paiement par carte bancaire en ligne nécessite la configuration des clés Stripe. Veuillez sélectionner le paiement à la livraison.",
-        };
-      }
+    // 7. Mode de paiement : Paiement à la livraison (COD) sécurisé
+    if (validatedData.paymentMethod === "STRIPE") {
+      return {
+        success: false,
+        error: "Le paiement par carte bancaire en ligne est actuellement désactivé. Veuillez sélectionner le paiement sécurisé à la livraison.",
+      };
     }
 
-    // Génération du numéro de commande unique (ex. HT-2026-XXXX)
-    const year = new Date().getFullYear();
-    const count = await prisma.order.count();
-    const orderNumber = `HT-${year}-${String(count + 1).padStart(4, "0")}`;
+    // Vérification COD
+    if (!settings?.codEnabled || !shippingCity.codAvailable) {
+      return { success: false, error: "Le paiement à la livraison n'est pas disponible pour cette destination." };
+    }
+    if (settings.codMaxAmount && total > settings.codMaxAmount) {
+      const maxDH = Math.round(settings.codMaxAmount / 100);
+      return {
+        success: false,
+        error: `Le montant total (${Math.round(total / 100)} DH) dépasse la limite autorisée pour le paiement à la livraison (${maxDH} DH).`,
+      };
+    }
 
-    // Jeton d'accès pour suivi invité sans compte
+    // 8. Génération d'un numéro de commande robuste et anti-collision (ex. HT-2026-X8Y2A1)
+    const year = new Date().getFullYear();
+    const timeComponent = Date.now().toString(36).toUpperCase().slice(-4);
+    const randomComponent = crypto.randomBytes(2).toString("hex").toUpperCase();
+    const orderNumber = `HT-${year}-${timeComponent}${randomComponent}`;
+
+    // Jeton d'accès cryptographique pour consultation de la commande sans compte
     const rawAccessToken = crypto.randomBytes(32).toString("base64url");
     const accessTokenHash = crypto.createHash("sha256").update(rawAccessToken).digest("hex");
 
@@ -153,20 +177,27 @@ export async function createOrderAction(input: CreateOrderInput) {
         ? `${shippingCity.minDays} jour${shippingCity.minDays > 1 ? "s" : ""}`
         : `${shippingCity.minDays} à ${shippingCity.maxDays} jours`;
 
-    // Transaction atomique : création de commande, décrément de stock, incrément du code promo, vidage du panier
+    // 9. Transaction atomique avec protection stricte contre le sur-stock (Atomic Decrement)
     const order = await prisma.$transaction(async (tx) => {
-      // 1. Décrémentation des stocks
+      // Étape A : Décrémentation atomique conditionnelle (empêche les stocks négatifs en cas d'accès simultané)
       for (const item of verifiedItems) {
-        await tx.product.update({
-          where: { id: item.productId },
+        const updateResult = await tx.product.updateMany({
+          where: {
+            id: item.productId,
+            stock: { gte: item.quantity }, // Condition atomique row-level
+          },
           data: {
             stock: { decrement: item.quantity },
             salesCount: { increment: item.quantity },
           },
         });
+
+        if (updateResult.count === 0) {
+          throw new Error(`STOCK_INSUFFICIENT:${item.name}`);
+        }
       }
 
-      // 2. Incrémenter le compteur du code promo s'il a été utilisé
+      // Étape B : Incrémenter le compteur d'utilisation du code promo
       if (validDiscountCode) {
         await tx.discountCode.update({
           where: { code: validDiscountCode },
@@ -174,30 +205,30 @@ export async function createOrderAction(input: CreateOrderInput) {
         });
       }
 
-      // 3. Création de la commande
+      // Étape C : Création de la commande
       const createdOrder = await tx.order.create({
         data: {
           number: orderNumber,
           accessTokenHash,
           userId: user?.id ?? null,
-          email: input.email.trim().toLowerCase(),
+          email: validatedData.email.toLowerCase(),
           status: OrderStatus.CONFIRMED,
-          paymentMethod: input.paymentMethod === "COD" ? PaymentMethod.COD : PaymentMethod.STRIPE,
+          paymentMethod: PaymentMethod.COD,
           paymentStatus: PaymentStatus.UNPAID,
           subtotal: liveSubtotal,
           discountTotal,
           discountCode: validDiscountCode,
           shippingFee,
           total,
-          shipFullName: input.fullName.trim(),
-          shipPhone: input.phone.trim(),
-          shipLine1: input.addressLine1.trim(),
-          shipLine2: input.addressLine2?.trim() || null,
+          shipFullName: validatedData.fullName,
+          shipPhone: validatedData.phone,
+          shipLine1: validatedData.addressLine1,
+          shipLine2: validatedData.addressLine2 || null,
           shipCity: shippingCity.name,
-          shipPostalCode: input.postalCode?.trim() || null,
+          shipPostalCode: validatedData.postalCode || null,
           shippingCityId: shippingCity.id,
           deliveryEstimate,
-          customerNote: input.customerNote?.trim() || null,
+          customerNote: validatedData.customerNote || null,
           carrier: "Amana Express / Messagerie Rapide Maroc",
           items: {
             create: verifiedItems.map((vi) => ({
@@ -214,16 +245,13 @@ export async function createOrderAction(input: CreateOrderInput) {
           history: {
             create: {
               status: OrderStatus.CONFIRMED,
-              note:
-                input.paymentMethod === "COD"
-                  ? "Commande confirmée avec option paiement en espèces à la livraison."
-                  : "Commande enregistrée (en attente de paiement Stripe).",
+              note: "Commande confirmée avec option paiement en espèces à la livraison (Casablanca & Maroc).",
             },
           },
         },
       });
 
-      // 4. Vider les éléments du panier
+      // Étape D : Vider les éléments du panier
       await tx.cartItem.deleteMany({
         where: { cartId: cartSummary.id },
       });
@@ -246,6 +274,13 @@ export async function createOrderAction(input: CreateOrderInput) {
       accessToken: rawAccessToken,
     };
   } catch (error: any) {
+    if (error?.message?.startsWith("STOCK_INSUFFICIENT:")) {
+      const productName = error.message.replace("STOCK_INSUFFICIENT:", "");
+      return {
+        success: false,
+        error: `Le stock pour « ${productName} » a été réservé par une autre commande. Veuillez ajuster votre panier.`,
+      };
+    }
     console.error("Erreur création commande :", error);
     return { success: false, error: "Impossible de valider votre commande. Veuillez réessayer." };
   }

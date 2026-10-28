@@ -283,54 +283,46 @@ export function CheckoutClient({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label
-              className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
-                paymentMethod === "COD"
-                  ? "bg-zinc-900 border-white text-white"
-                  : "bg-black border-zinc-800 text-zinc-400 hover:border-zinc-700"
-              }`}
+              className="p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between bg-zinc-900 border-white text-white shadow-sm"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <Banknote className="w-4 h-4 text-white" />
+                  <Banknote className="w-4 h-4 text-emerald-400" />
                   <span className="font-bold text-xs text-white">Paiement à la livraison</span>
                 </div>
                 <input
                   type="radio"
                   name="payment"
-                  checked={paymentMethod === "COD"}
-                  onChange={() => setPaymentMethod("COD")}
+                  checked={true}
+                  readOnly
                   className="accent-white"
                 />
               </div>
-              <p className="text-[11px] text-zinc-400">
-                Règlement au transporteur lors de la remise du colis.
+              <p className="text-[11px] text-zinc-300">
+                Règlement en espèces ou par chèque auprès du transporteur après inspection de votre colis.
               </p>
+              <div className="mt-2.5 inline-flex items-center gap-1.5 text-[10px] text-emerald-400 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Disponible sur tout le Maroc</span>
+              </div>
             </label>
 
-            <label
-              className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
-                paymentMethod === "STRIPE"
-                  ? "bg-zinc-900 border-white text-white"
-                  : "bg-black border-zinc-800 text-zinc-400 hover:border-zinc-700"
-              }`}
+            <div
+              className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 opacity-60 flex flex-col justify-between cursor-not-allowed select-none"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4 text-white" />
-                  <span className="font-bold text-xs text-white">Carte Bancaire</span>
+                  <CreditCard className="w-4 h-4 text-zinc-500" />
+                  <span className="font-bold text-xs text-zinc-400">Carte Bancaire</span>
                 </div>
-                <input
-                  type="radio"
-                  name="payment"
-                  checked={paymentMethod === "STRIPE"}
-                  onChange={() => setPaymentMethod("STRIPE")}
-                  className="accent-white"
-                />
+                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700">
+                  Bientôt disponible
+                </span>
               </div>
-              <p className="text-[11px] text-zinc-400">
-                Paiement direct sécurisé via carte bancaire.
+              <p className="text-[11px] text-zinc-500">
+                Paiement en ligne sécurisé (certification bancaire CMI / Stripe en cours de finalisation).
               </p>
-            </label>
+            </div>
           </div>
         </div>
       </div>

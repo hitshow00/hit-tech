@@ -72,7 +72,7 @@ export default async function SuiviPage({ searchParams }: SuiviPageProps) {
               name="n"
               defaultValue={orderNumber || ""}
               required
-              placeholder="Ex : HT-20261025-XXXX"
+              placeholder="Ex : HT-2026-XXXX"
               className="w-full bg-black border border-zinc-800 rounded-lg py-2.5 pl-9 pr-3 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 uppercase font-mono"
             />
             <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-3.5 pointer-events-none" />

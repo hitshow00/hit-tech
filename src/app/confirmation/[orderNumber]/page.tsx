@@ -30,7 +30,7 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
     // Silently continue
   }
 
-  const defaultPhone = "212661234567";
+  const defaultPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "212661234567";
   const whatsappMsg = encodeURIComponent(
     `Salam ! Je vous contacte au sujet de ma commande Hit Tech N° ${orderNumber}.`
   );

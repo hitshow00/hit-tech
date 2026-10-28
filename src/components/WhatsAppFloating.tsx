@@ -11,7 +11,7 @@ export function WhatsAppFloating() {
     return null;
   }
 
-  const phone = "212661234567";
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "212661234567";
   const defaultMessage = encodeURIComponent(
     "Salam ! Je vous contacte depuis le site Hit Tech, j'ai une question concernant un produit ou une commande."
   );
