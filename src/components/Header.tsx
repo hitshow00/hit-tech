@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getCartSummary } from "@/lib/cart";
 import { Role } from "@/lib/prisma";
 import { ThemeToggle } from "./ThemeToggle";
+import { SpatialMobileMenu } from "./SpatialMobileMenu";
 import {
   Smartphone,
   Laptop,
@@ -39,130 +40,132 @@ export async function Header() {
   const isAdmin = user?.role === Role.ADMIN || user?.role === Role.STAFF;
 
   return (
-    <header className="sticky top-0 z-40 w-full header-theme backdrop-blur-md transition-colors">
-      {/* Barre Principale de Navigation */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5">
-        <div className="flex items-center justify-between gap-6">
-          {/* Logo HIT TECH */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-8 h-8 rounded-lg btn-theme-primary flex items-center justify-center font-black text-sm tracking-wider group-hover:scale-105 transition-transform">
-              HT
-            </div>
-            <span className="font-extrabold text-lg tracking-wider text-main uppercase">
+    <header className="sticky top-0 z-40 w-full header-theme transition-all">
+      {/* Ligne d'accent luminescent cyan spatial sur la bordure basse */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent pointer-events-none" />
+
+      {/* Barre de Navigation Principale Spatiale */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        
+        {/* ── 1. LOGO & MONOGRAMME HIT TECH ── */}
+        <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-zinc-800 to-black border border-white/20 text-white font-black text-xs flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_14px_rgba(34,211,238,0.25)] group-hover:scale-105 transition-all">
+            HT
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="font-black text-sm tracking-widest text-white uppercase group-hover:text-zinc-200 transition-colors">
               Hit Tech
             </span>
-          </Link>
+            <span className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-[9px] font-mono text-cyan-300 font-bold">
+              PRO
+            </span>
+          </div>
+        </Link>
 
-          {/* Barre de Recherche Épurée */}
-          <form
-            action="/boutique"
-            method="GET"
-            className="flex-1 max-w-lg hidden md:flex items-center relative"
+        {/* ── 2. ONGLETS DE CATÉGORIES SPATIAUX (DESKTOP) ── */}
+        <div className="hidden lg:flex items-center gap-1 bg-white/[0.04] p-1 rounded-full border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+          <Link
+            href="/boutique"
+            className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/[0.1] transition-all"
           >
+            Catalogue
+          </Link>
+          <Link
+            href="/boutique?categorie=smartphones"
+            className="px-3 py-1.5 rounded-full text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/[0.1] transition-all flex items-center gap-1.5"
+          >
+            <Smartphone className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Smartphones</span>
+          </Link>
+          <Link
+            href="/boutique?categorie=pc-portables"
+            className="px-3 py-1.5 rounded-full text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/[0.1] transition-all flex items-center gap-1.5"
+          >
+            <Laptop className="w-3.5 h-3.5 text-cyan-400" />
+            <span>PC Portables</span>
+          </Link>
+          <Link
+            href="/boutique?categorie=tablettes"
+            className="px-3 py-1.5 rounded-full text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/[0.1] transition-all flex items-center gap-1.5"
+          >
+            <Tablet className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Tablettes</span>
+          </Link>
+          <Link
+            href="/boutique?categorie=audio-casques"
+            className="px-3 py-1.5 rounded-full text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/[0.1] transition-all flex items-center gap-1.5"
+          >
+            <Headphones className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Audio</span>
+          </Link>
+        </div>
+
+        {/* ── 3. RECHERCHE SPATIALE & ACTIONS UTILISATEUR ── */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          
+          {/* Capsule de Recherche Dynamique (Desktop & Tablette) */}
+          <form action="/boutique" method="GET" className="relative hidden md:flex items-center">
             <input
               type="text"
               name="q"
-              placeholder="Rechercher un produit, marque, modèle..."
-              className="w-full input-theme rounded-lg py-2 pl-9 pr-20 text-xs text-main placeholder-muted transition-colors"
+              placeholder="Rechercher..."
+              className="w-36 lg:w-48 focus:w-64 bg-white/[0.05] hover:bg-white/[0.08] focus:bg-black/90 border border-white/15 focus:border-cyan-400/70 rounded-full py-1.5 pl-8 pr-10 text-xs text-white placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-cyan-400/40 transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
             />
-            <Search className="w-3.5 h-3.5 text-muted absolute left-3 pointer-events-none" />
-            <button
-              type="submit"
-              className="absolute right-1 px-2.5 py-1 badge-theme text-main text-xs font-medium rounded transition-colors"
-            >
-              Rechercher
-            </button>
+            <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
+            <span className="absolute right-2 px-1.5 py-0.5 rounded bg-zinc-800/80 border border-zinc-700/60 text-[9px] font-mono text-zinc-400 pointer-events-none">
+              ⌘K
+            </span>
           </form>
 
-          {/* Actions : Thème Dark/White, Compte, Admin, Panier */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <ThemeToggle />
+          {/* Toggle Thème Sombre / Blanc */}
+          <div className="hidden sm:flex items-center">
+            <ThemeToggle className="rounded-full bg-white/[0.06] hover:bg-white/[0.12] border-white/15 text-white" />
+          </div>
 
-            {isAdmin && (
-              <Link
-                href="/admin"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg badge-theme text-main text-xs font-medium hover:border-theme transition-colors"
-                title="Tableau de bord administrateur"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Admin</span>
-              </Link>
-            )}
-
+          {/* Bouton Panneau Administrateur */}
+          {isAdmin && (
             <Link
-              href={user ? "/compte" : "/compte/connexion"}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg badge-theme text-main text-xs font-medium transition-colors"
+              href="/admin"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 text-xs font-bold hover:bg-cyan-900 transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+              title="Tableau de bord administrateur"
             >
-              <UserIcon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">
-                {user ? user.firstName : "Connexion"}
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Admin</span>
+            </Link>
+          )}
+
+          {/* Compte Utilisateur / Connexion */}
+          <Link
+            href={user ? "/compte" : "/compte/connexion"}
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-white text-xs font-semibold transition-all shadow-sm"
+          >
+            <UserIcon className="w-3.5 h-3.5 text-zinc-300" />
+            <span>{user ? user.firstName : "Connexion"}</span>
+          </Link>
+
+          {/* Capsule Panier Blanche Luminescente */}
+          <Link
+            href="/panier"
+            className="hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full bg-white hover:bg-zinc-200 text-black font-extrabold text-xs transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105 active:scale-95"
+            aria-label="Voir le panier"
+          >
+            <ShoppingBag className="w-3.5 h-3.5 text-black" />
+            <span>Panier</span>
+            {itemCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-black text-white text-[10px] font-black flex items-center justify-center -mr-1">
+                {itemCount}
               </span>
-            </Link>
+            )}
+          </Link>
 
-            <Link
-              href="/panier"
-              className="relative flex items-center gap-2 px-3.5 py-1.5 rounded-lg btn-theme-primary text-xs font-bold transition-all shadow-sm"
-              aria-label="Voir le panier"
-            >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Panier</span>
-              {itemCount > 0 && (
-                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-black bg-current rounded-full">
-                  <span className="text-inverted">{itemCount}</span>
-                </span>
-              )}
-            </Link>
-          </div>
+          {/* Menu Mobile Spatial Réactif */}
+          <SpatialMobileMenu
+            user={user ? { firstName: user.firstName, role: user.role } : null}
+            itemCount={itemCount}
+            isAdmin={isAdmin}
+          />
         </div>
 
-        {/* Barre des Catégories Minimaliste */}
-        <div className="flex items-center justify-between text-xs pt-3 mt-3 border-t border-theme overflow-x-auto no-scrollbar gap-6">
-          <div className="flex items-center gap-6 shrink-0">
-            <Link
-              href="/boutique"
-              className="text-secondary hover:text-main font-medium transition-colors"
-            >
-              Tous les produits
-            </Link>
-            <Link
-              href="/boutique?categorie=smartphones"
-              className="flex items-center gap-1.5 text-secondary hover:text-main transition-colors"
-            >
-              <Smartphone className="w-3.5 h-3.5 text-muted" />
-              Smartphones
-            </Link>
-            <Link
-              href="/boutique?categorie=pc-portables"
-              className="flex items-center gap-1.5 text-secondary hover:text-main transition-colors"
-            >
-              <Laptop className="w-3.5 h-3.5 text-muted" />
-              PC Portables
-            </Link>
-            <Link
-              href="/boutique?categorie=tablettes"
-              className="flex items-center gap-1.5 text-secondary hover:text-main transition-colors"
-            >
-              <Tablet className="w-3.5 h-3.5 text-muted" />
-              Tablettes
-            </Link>
-            <Link
-              href="/boutique?categorie=audio-casques"
-              className="flex items-center gap-1.5 text-secondary hover:text-main transition-colors"
-            >
-              <Headphones className="w-3.5 h-3.5 text-muted" />
-              Audio & Casques
-            </Link>
-          </div>
-
-          <div className="hidden md:flex items-center gap-5 text-muted text-xs shrink-0">
-            <Link href="/suivi" className="hover:text-main transition-colors">
-              Suivi de commande
-            </Link>
-            <Link href="/contact" className="hover:text-main transition-colors">
-              Contact
-            </Link>
-          </div>
-        </div>
       </nav>
     </header>
   );
