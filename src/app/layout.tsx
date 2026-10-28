@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { WhatsAppFloating } from "@/components/WhatsAppFloating";
 
 export const viewport: Viewport = {
   themeColor: "#000000",
@@ -76,6 +77,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />
+        <WhatsAppFloating />
       </body>
     </html>
   );

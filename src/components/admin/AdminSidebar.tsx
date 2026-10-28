@@ -16,6 +16,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { logoutAction } from "@/actions/auth";
+import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
 
 interface AdminSidebarProps {
   user: {
@@ -61,9 +62,9 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   return (
     <aside className="w-64 shrink-0 bg-zinc-950 border-r border-zinc-900 min-h-screen flex flex-col justify-between p-4 sticky top-0 h-screen select-none">
       {/* Haut : Logo & Navigation */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Brand */}
-        <div className="flex items-center justify-between px-2 pt-2 pb-4 border-b border-zinc-900">
+        <div className="flex items-center justify-between px-2 pt-2 pb-3 border-b border-zinc-900">
           <Link href="/admin" className="flex items-center gap-3 group">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-black text-white text-sm shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
               HT
@@ -79,8 +80,13 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
           </Link>
         </div>
 
+        {/* Command Palette Trigger */}
+        <div className="px-1">
+          <AdminCommandPalette />
+        </div>
+
         {/* Liens organisés par groupe */}
-        <nav className="space-y-5">
+        <nav className="space-y-4">
           {navigation.map((group) => (
             <div key={group.group} className="space-y-1">
               <span className="px-3 text-[10px] font-bold uppercase tracking-wider text-zinc-500">

@@ -70,7 +70,8 @@ export async function submitReviewAction(formData: FormData) {
       },
     });
 
-    revalidatePath(`/produit`);
+    revalidatePath("/", "layout");
+    revalidatePath("/admin/avis");
     return { success: true, message: "Merci ! Votre avis a été enregistré." };
   } catch (error) {
     console.error("Erreur ajout avis :", error);

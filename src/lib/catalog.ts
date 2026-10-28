@@ -10,6 +10,15 @@ export interface CatalogProduct extends ProductCardData {
   salesCount?: number;
   category?: { name: string; slug: string; id?: string };
   brand?: { name: string; slug?: string; id?: string };
+  reviews?: Array<{
+    id: string;
+    rating: number;
+    title: string;
+    body: string;
+    createdAt: Date | string;
+    verifiedPurchase?: boolean;
+    user: { firstName: string; lastName: string };
+  }>;
 }
 
 // Données de secours fidèles au catalogue officiel Hit Tech Maroc
@@ -722,5 +731,20 @@ function formatDbProduct(p: any): CatalogProduct {
             },
           ],
     specs,
+    reviews:
+      p.reviews && p.reviews.length > 0
+        ? p.reviews.map((r: any) => ({
+            id: r.id,
+            rating: r.rating,
+            title: r.title,
+            body: r.body,
+            createdAt: r.createdAt,
+            verifiedPurchase: r.verifiedPurchase,
+            user: {
+              firstName: r.user?.firstName || "Client",
+              lastName: r.user?.lastName || "",
+            },
+          }))
+        : undefined,
   };
 }

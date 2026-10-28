@@ -63,6 +63,20 @@ export async function getOrCreateCartId(userId?: string | null): Promise<string>
       orderBy: { updatedAt: "desc" },
     });
     if (userCart) {
+      const newToken = crypto.randomBytes(32).toString("base64url");
+      const tokenHash = hashToken(newToken);
+      await prisma.cart.update({
+        where: { id: userCart.id },
+        data: { tokenHash },
+      });
+      const expiresAt = new Date(Date.now() + CART_DURATION_DAYS * 24 * 60 * 60 * 1000);
+      cookieStore.set(CART_COOKIE_NAME, newToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        expires: expiresAt,
+      });
       return userCart.id;
     }
   }

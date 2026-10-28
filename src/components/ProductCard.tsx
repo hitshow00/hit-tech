@@ -35,41 +35,44 @@ export function ProductCard({ product }: { product: ProductCardData }) {
       : null;
 
   return (
-    <article className="group relative rounded-xl card-theme overflow-hidden flex flex-col justify-between transition-all duration-300">
-      {/* Badges minimalistes en haut */}
+    <article className="group relative rounded-2xl bento-card-prestige overflow-hidden flex flex-col justify-between transition-all duration-500">
+      {/* Badges prestigieux */}
       <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-none">
         <div className="flex items-center gap-1.5">
           {discountPercent !== null && (
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold btn-theme-primary shadow-sm">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FF5C38] text-white shadow-[0_2px_12px_rgba(255,92,56,0.5)]">
               -{discountPercent}%
             </span>
           )}
           {product.isNew && (
-            <span className="px-2 py-0.5 rounded text-[10px] font-medium badge-theme">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/10 text-white backdrop-blur-md border border-white/15">
               Nouveau
             </span>
           )}
         </div>
 
         {product.stock <= 0 && (
-          <span className="px-2 py-0.5 rounded text-[10px] font-medium badge-theme">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-zinc-900/90 text-zinc-400 backdrop-blur-md border border-white/10">
             Épuisé
           </span>
         )}
       </div>
 
-      {/* Visuel produit épuré */}
+      {/* Visuel produit immersif avec halo réactif */}
       <Link
         href={`/produit/${product.slug}`}
-        className="block relative aspect-square card-media overflow-hidden p-6"
+        className="block relative aspect-square overflow-hidden p-6 bg-gradient-to-b from-white/[0.02] to-transparent"
       >
+        {/* Glow diffus d'arrière-plan */}
+        <div className="absolute inset-0 bg-radial from-[#FF5C38]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+        
         <div className="relative w-full h-full flex items-center justify-center">
           <Image
             src={imgSrc}
             alt={primaryImage?.alt || product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-contain transition-transform duration-500 group-hover:scale-105"
+            className="object-contain transition-transform duration-700 ease-out group-hover:scale-108"
             loading="lazy"
           />
         </div>

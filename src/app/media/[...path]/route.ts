@@ -26,7 +26,13 @@ export async function GET(
     target = targetPublic;
   }
 
-  if (!target.startsWith(UPLOAD_ROOT) && !target.startsWith(PUBLIC_MEDIA_ROOT)) {
+  // Vérification sécurisée multi-plateforme (Windows drive-letter case agnostic)
+  const relUpload = path.relative(UPLOAD_ROOT, target);
+  const isInsideUpload = !relUpload.startsWith("..") && !path.isAbsolute(relUpload);
+  const relPublic = path.relative(PUBLIC_MEDIA_ROOT, target);
+  const isInsidePublic = !relPublic.startsWith("..") && !path.isAbsolute(relPublic);
+
+  if (!isInsideUpload && !isInsidePublic) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 

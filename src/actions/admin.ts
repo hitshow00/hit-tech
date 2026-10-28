@@ -421,3 +421,176 @@ export async function toggleDiscountAction(id: string, isActive: boolean) {
     return { success: false, error: "Erreur" };
   }
 }
+
+export async function deleteDiscountAction(id: string) {
+  try {
+    const admin = await requireStaffOrAdmin();
+    const discount = await prisma.discountCode.delete({
+      where: { id },
+    });
+
+    await logAudit({
+      userId: admin.id,
+      action: "discount.delete",
+      entityType: "DiscountCode",
+      entityId: id,
+      summary: `Suppression du code promo ${discount.code}`,
+    });
+
+    revalidatePath("/admin/promotions");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Impossible de supprimer ce code promo." };
+  }
+}
+
+// ─────────────────────────── ACTIONS GROUPÉES COMMANDES ───────────────────────────
+
+export async function bulkUpdateOrderStatusAction(orderIds: string[], newStatus: OrderStatus) {
+  try {
+    const admin = await requireStaffOrAdmin();
+    if (!orderIds.length) return { success: false, error: "Aucune commande sélectionnée" };
+
+    await prisma.$transaction(async (tx) => {
+      await tx.order.updateMany({
+        where: { id: { in: orderIds } },
+        data: {
+          status: newStatus,
+          paymentStatus: newStatus === OrderStatus.DELIVERED ? PaymentStatus.PAID : undefined,
+        },
+      });
+
+      for (const orderId of orderIds) {
+        await tx.orderStatusHistory.create({
+          data: {
+            orderId,
+            status: newStatus,
+            note: `Mise à jour groupée vers ${newStatus}`,
+            createdBy: admin.id,
+          },
+        });
+      }
+    });
+
+    await logAudit({
+      userId: admin.id,
+      action: "order.bulk_status",
+      entityType: "Order",
+      summary: `Mise à jour groupée de ${orderIds.length} commande(s) vers ${newStatus}`,
+    });
+
+    revalidatePath("/admin/commandes");
+    return { success: true, count: orderIds.length };
+  } catch (error: any) {
+    console.error("Erreur bulk status :", error);
+    return { success: false, error: error?.message || "Erreur mise à jour groupée" };
+  }
+}
+
+// ─────────────────────────── GESTION UTILISATEURS ───────────────────────────
+
+export async function toggleUserStatusAction(userId: string, isActive: boolean) {
+  try {
+    const admin = await requireStaffOrAdmin();
+    if (admin.id === userId) {
+      return { success: false, error: "Vous ne pouvez pas modifier votre propre compte." };
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: { isActive },
+    });
+
+    await logAudit({
+      userId: admin.id,
+      action: "user.toggle_active",
+      entityType: "User",
+      entityId: userId,
+      summary: `${isActive ? "Activation" : "Désactivation"} du compte ${updated.email}`,
+    });
+
+    revalidatePath("/admin/utilisateurs");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Erreur lors de la modification de l'utilisateur." };
+  }
+}
+
+export async function updateUserRoleAction(userId: string, role: Role) {
+  try {
+    const admin = await requireStaffOrAdmin();
+    if (admin.id === userId) {
+      return { success: false, error: "Vous ne pouvez pas modifier votre propre rôle." };
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: { role },
+    });
+
+    await logAudit({
+      userId: admin.id,
+      action: "user.change_role",
+      entityType: "User",
+      entityId: userId,
+      summary: `Attribution du rôle ${role} à ${updated.email}`,
+    });
+
+    revalidatePath("/admin/utilisateurs");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Erreur lors du changement de rôle." };
+  }
+}
+
+// ─────────────────────────── RECHERCHE UNIVERSELLE (COMMAND PALETTE) ───────────────────────────
+
+export async function quickSearchAdminAction(query: string) {
+  try {
+    await requireStaffOrAdmin();
+    const q = query.trim();
+    if (!q || q.length < 2) {
+      return { products: [], orders: [], users: [] };
+    }
+
+    const [products, orders, users] = await Promise.all([
+      prisma.product.findMany({
+        where: {
+          OR: [
+            { name: { contains: q, mode: "insensitive" } },
+            { sku: { contains: q, mode: "insensitive" } },
+          ],
+        },
+        take: 5,
+        select: { id: true, name: true, slug: true, sku: true, price: true, stock: true },
+      }),
+      prisma.order.findMany({
+        where: {
+          OR: [
+            { number: { contains: q, mode: "insensitive" } },
+            { shipFullName: { contains: q, mode: "insensitive" } },
+            { shipPhone: { contains: q, mode: "insensitive" } },
+            { email: { contains: q, mode: "insensitive" } },
+          ],
+        },
+        take: 5,
+        select: { id: true, number: true, shipFullName: true, total: true, status: true, createdAt: true },
+      }),
+      prisma.user.findMany({
+        where: {
+          OR: [
+            { email: { contains: q, mode: "insensitive" } },
+            { firstName: { contains: q, mode: "insensitive" } },
+            { lastName: { contains: q, mode: "insensitive" } },
+          ],
+        },
+        take: 5,
+        select: { id: true, email: true, firstName: true, lastName: true, role: true },
+      }),
+    ]);
+
+    return { products, orders, users };
+  } catch (error) {
+    return { products: [], orders: [], users: [] };
+  }
+}

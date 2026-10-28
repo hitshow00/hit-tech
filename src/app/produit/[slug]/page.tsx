@@ -233,22 +233,43 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       <div className="mt-20 pt-12 border-t border-zinc-900 grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-7">
           <h2 className="text-lg font-bold text-white uppercase tracking-wider mb-6">
-            Avis Vérifiés ({product.ratingCount || 1})
+            Avis Vérifiés ({product.reviews?.length || product.ratingCount || 0})
           </h2>
 
           <div className="space-y-4">
-            <div className="rounded-xl bg-zinc-950 p-5 border border-zinc-900">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-bold text-white text-xs">Client vérifié</span>
-                <div className="flex items-center text-white">
-                  <Star className="w-3.5 h-3.5 fill-current" />
+            {product.reviews && product.reviews.length > 0 ? (
+              product.reviews.map((rev) => (
+                <div key={rev.id} className="rounded-xl bg-zinc-950 p-5 border border-zinc-900 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-white text-xs">
+                        {rev.user.firstName} {rev.user.lastName ? rev.user.lastName.charAt(0) + "." : ""}
+                      </span>
+                      {rev.verifiedPurchase && (
+                        <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-medium">
+                          Achat vérifié
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center text-amber-400">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star
+                          key={s}
+                          className={`w-3.5 h-3.5 ${s <= rev.rating ? "fill-amber-400" : "text-zinc-700"}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <h4 className="font-semibold text-white text-xs">{rev.title}</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed">{rev.body}</p>
                 </div>
+              ))
+            ) : (
+              <div className="rounded-xl bg-zinc-950 p-6 border border-zinc-900 text-center space-y-1">
+                <p className="text-xs font-semibold text-white">Soyez le premier à donner votre avis !</p>
+                <p className="text-xs text-zinc-500">Partagez votre expérience avec la communauté Hit Tech.</p>
               </div>
-              <h4 className="font-semibold text-white text-xs">Conforme aux spécifications</h4>
-              <p className="text-xs text-zinc-400 mt-1">
-                Produit neuf scellé d&apos;origine, conforme aux caractéristiques annoncées.
-              </p>
-            </div>
+            )}
           </div>
         </div>
 

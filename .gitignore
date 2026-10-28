@@ -25,3 +25,5 @@ scratch-*.ts
 
 .vercel
 .env*
+
+vexor.html

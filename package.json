@@ -5,7 +5,6 @@
   "description": "Hit Tech — boutique e-commerce de produits technologiques (Maroc)",
   "scripts": {
     "dev": "next dev",
-    "dev:chrome": "start chrome --auto-open-devtools-for-tabs http://localhost:3000 && next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
