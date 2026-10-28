@@ -31,111 +31,78 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-24">
-      {/* ────────────────── 1. HERO SECTION AVEC VIDÉO 3D CINÉMATIQUE ────────────────── */}
-      <section className="relative overflow-hidden pt-10 md:pt-16 pb-12 border-b border-theme">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+      {/* ────────────────── 1. HERO SECTION CINÉMATIQUE AVEC VIDÉO 3D EN ARRIÈRE-PLAN ────────────────── */}
+      <section className="relative overflow-hidden min-h-[80vh] md:min-h-[85vh] flex items-center border-b border-theme bg-black">
+        
+        {/* Vidéo 3D en arrière-plan immersif */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <video
+            src="/media/hero-3d.mp4"
+            poster="/media/hero-3d-poster.jpg"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover object-center opacity-45 md:opacity-50 scale-102 transition-opacity duration-1000"
+          />
+          {/* Gradients de lisibilité et fondu cinéma */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-black/35" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+        </div>
+
+        {/* Contenu textuel survolant la vidéo */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-16 md:py-24">
+          <div className="max-w-2xl flex flex-col items-start gap-6">
             
-            {/* Colonne gauche : Typographie d'impact & proposition de valeur */}
-            <div className="lg:col-span-6 flex flex-col items-start gap-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full badge-theme text-xs font-medium">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="tracking-widest uppercase text-[10px] font-mono text-secondary">
-                  Sélection Officielle • Édition 2026
-                </span>
-              </div>
-
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-main tracking-tight leading-[1.04]">
-                L&apos;Ingénierie Tech. <br />
-                <span className="text-secondary font-light">À son apogée.</span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-secondary max-w-xl leading-relaxed font-normal">
-                Une sélection rigoureuse d&apos;appareils électroniques de pointe. Smartphones flagships en titane, ordinateurs de travail avancés et acoustique haute précision sous garantie constructeur Maroc.
-              </p>
-
-              {/* Boutons d'action thématiques */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <Link
-                  href="/boutique"
-                  className="px-6 py-3 rounded-lg btn-theme-primary font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 group shadow-sm"
-                >
-                  <span>Explorer le catalogue</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/boutique?sort=new"
-                  className="px-6 py-3 rounded-lg btn-theme-secondary font-medium text-xs uppercase tracking-wider transition-all flex items-center gap-2"
-                >
-                  <span>Nouveautés</span>
-                </Link>
-              </div>
+            {/* Badge de collection officielle */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/15 text-xs font-medium shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="tracking-widest uppercase text-[10px] font-mono text-zinc-300">
+                Sélection Officielle • Édition 2026
+              </span>
             </div>
 
-            {/* Colonne droite : Showcase Vidéo 3D Réalisé sur Google Flow */}
-            <div className="lg:col-span-6 relative">
-              <div className="rounded-2xl sm:rounded-3xl card-theme p-4 sm:p-5 flex flex-col gap-4 relative overflow-hidden group shadow-2xl transition-all duration-500">
-                
-                {/* Header du Showcase avec badge 3D */}
-                <div className="flex items-center justify-between text-xs px-1">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full badge-theme text-[10px] font-mono font-semibold tracking-wider uppercase text-cyan-400 border border-cyan-500/20">
-                      Showcase 3D
-                    </span>
-                    <span className="text-[11px] text-muted font-medium hidden sm:inline">
-                      Châssis Titane & Verre Dépoli
-                    </span>
-                  </div>
-                  <span className="text-muted font-mono text-[10px] uppercase tracking-wider">
-                    Garantie Maroc
-                  </span>
-                </div>
+            {/* Titre Principal Cinématique */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.04]">
+              L&apos;Ingénierie Tech. <br />
+              <span className="text-zinc-400 font-light">À son apogée.</span>
+            </h1>
 
-                {/* Cadre Vidéo 3D Fluide */}
-                <div className="relative aspect-video w-full rounded-xl sm:rounded-2xl overflow-hidden card-media bg-black">
-                  <video
-                    src="/media/hero-3d.mp4"
-                    poster="/media/hero-3d-poster.jpg"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102"
-                  />
-                  {/* Reflet subtil en coin */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                  
-                  <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs pointer-events-none">
-                    <span className="text-white/90 text-xs font-semibold drop-shadow-md">
-                      Flagships & Écouteurs Pro
-                    </span>
-                    <span className="text-[10px] text-zinc-300 font-mono bg-black/60 backdrop-blur-md px-2 py-0.5 rounded">
-                      4K Cinematic
-                    </span>
-                  </div>
-                </div>
+            {/* Sous-titre & Proposition de valeur */}
+            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-normal max-w-xl">
+              Une sélection rigoureuse d&apos;appareils électroniques d&apos;exception. Smartphones flagships en titane, ordinateurs de travail avancés et acoustique haute fidélité sous boîte scellée et garantie constructeur au Maroc.
+            </p>
 
-                {/* Barre info produit & lien direct */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-theme px-1">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-muted block">
-                      Disponibilité Immédiate
-                    </span>
-                    <h3 className="text-sm font-bold text-main tracking-tight">
-                      Samsung Galaxy S24 Ultra & Audio Haute Fidélité
-                    </h3>
-                  </div>
+            {/* Boutons d'action modernes */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                href="/boutique"
+                className="px-7 py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 group shadow-xl hover:scale-102 active:scale-98"
+              >
+                <span>Explorer le catalogue</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/boutique?sort=new"
+                className="px-6 py-3.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-white backdrop-blur-md border border-white/15 font-semibold text-xs uppercase tracking-wider transition-all flex items-center gap-2"
+              >
+                <span>Nouveaux Arrivages</span>
+              </Link>
+            </div>
 
-                  <Link
-                    href="/produit/samsung-galaxy-s24-5g-256go-onyx-black"
-                    className="px-3.5 py-2 rounded-lg btn-theme-secondary text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shrink-0 self-start sm:self-center"
-                  >
-                    <span>Voir la fiche</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-
-              </div>
+            {/* Fiche produit phare discrète */}
+            <div className="mt-4 pt-4 border-t border-white/15 flex flex-wrap items-center gap-2.5 text-xs text-zinc-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+              <span>
+                En vedette : <strong className="text-white font-medium">Samsung Galaxy S24 Ultra</strong> &amp; Écouteurs Pro
+              </span>
+              <Link
+                href="/produit/samsung-galaxy-s24-5g-256go-onyx-black"
+                className="text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-0.5 transition-colors ml-1"
+              >
+                <span>Voir la fiche</span>
+                <ChevronRight className="w-3 h-3" />
+              </Link>
             </div>
 
           </div>
@@ -145,17 +112,17 @@ export default async function HomePage() {
       {/* ────────────────── 2. BARRE D'ENGAGEMENTS & RÉASSURANCE ────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full -mt-8 sm:-mt-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5">
+          <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5 shadow-sm">
             <div className="w-10 h-10 rounded-lg badge-theme flex items-center justify-center shrink-0">
               <ShieldCheck className="w-5 h-5 text-main" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-main">100% Neuf & Scellé</h4>
+              <h4 className="text-xs font-bold text-main">100% Neuf &amp; Scellé</h4>
               <p className="text-[11px] text-muted">Boîte d&apos;origine constructeur sous blister officiel</p>
             </div>
           </div>
 
-          <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5">
+          <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5 shadow-sm">
             <div className="w-10 h-10 rounded-lg badge-theme flex items-center justify-center shrink-0">
               <Truck className="w-5 h-5 text-main" />
             </div>
@@ -165,7 +132,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5">
+          <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5 shadow-sm">
             <div className="w-10 h-10 rounded-lg badge-theme flex items-center justify-center shrink-0">
               <Sparkles className="w-5 h-5 text-main" />
             </div>
