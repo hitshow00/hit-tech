@@ -32,47 +32,71 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-24">
       {/* ────────────────── 1. HERO SECTION CINÉMATIQUE AVEC VIDÉO 3D EN ARRIÈRE-PLAN ────────────────── */}
-      <section className="relative overflow-hidden min-h-[82vh] md:min-h-[88vh] flex items-center border-b border-zinc-900 bg-black hero-cinematic">
+      <section className="relative overflow-hidden min-h-[82vh] md:min-h-[88vh] flex items-center bg-black hero-cinematic">
         
-        {/* Vidéo 3D Flow AI : Rendu ultra-net sur la droite avec fondu cinéma vers le noir pur à gauche */}
+        {/* Vidéo 3D Flow AI : Immersion pleine largeur avec dégradés cinéma progressifs multi-points (0 coupure) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          {/* Conteneur vidéo ancré à droite sur desktop pour laisser le texte respirer à 100% sur fond noir */}
-          <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[65%] h-full">
-            <video
-              src="/media/hero-3d.mp4"
-              poster="/media/hero-3d-poster.jpg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className="w-full h-full object-cover object-[70%_center] lg:object-center opacity-90 contrast-[1.08] saturate-[1.08]"
-            />
-            {/* Fondu cinéma horizontal pour fondre la vidéo dans le noir pur */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 lg:via-black/30 to-transparent" />
-          </div>
+          <video
+            src="/media/hero-3d.mp4"
+            poster="/media/hero-3d-poster.jpg"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover object-[75%_center] lg:object-[68%_center] opacity-85 contrast-[1.06] saturate-[1.08] transition-opacity duration-1000"
+          />
 
-          {/* Fondu vertical cinéma haut et bas */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
-          
-          {/* Zone de lisibilité absolue à gauche : noir pur sous le texte */}
-          <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[45%] bg-gradient-to-r from-black via-black to-transparent" />
+          {/* Dégradé horizontal continu : Noir pur à gauche (zone texte) vers transparence veloutée à droite (zone 3D) */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to right, #000000 0%, rgba(0,0,0,0.96) 28%, rgba(0,0,0,0.80) 45%, rgba(0,0,0,0.25) 70%, transparent 100%)",
+            }}
+          />
+
+          {/* Dégradé vertical haut & bas : Fondu doux vers le header et la suite de la page */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 18%, transparent 75%, #000000 100%)",
+            }}
+          />
         </div>
+
+        {/* Ligne de séparation basse en dégradé subtil (sans coupure franche) */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent z-10" />
 
         {/* Contenu textuel survolant la vidéo avec clarté et contraste absolus */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-16 md:py-24">
           <div className="max-w-2xl flex flex-col items-start gap-6">
             
-            {/* Badge officiel en verre givré avec puce luminescente */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-xl text-white shadow-xl">
+            {/* Badge officiel en verre givré sombre (fond sombre garanti, texte blanc 100% lisible) */}
+            <div
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full shadow-xl"
+              style={{
+                backgroundColor: "rgba(18, 18, 20, 0.90)",
+                border: "1px solid rgba(82, 82, 91, 0.65)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+              }}
+            >
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]" />
-              <span className="tracking-widest uppercase text-[10px] sm:text-[11px] font-mono font-semibold !text-zinc-100">
+              <span
+                className="tracking-widest uppercase text-[10px] sm:text-[11px] font-mono font-semibold"
+                style={{ color: "#ffffff" }}
+              >
                 Sélection Officielle • Édition 2026
               </span>
             </div>
 
             {/* Titre Principal Cinématique Luminescent */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black !text-white tracking-tight leading-[1.04] drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+            <h1
+              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.04] drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
+              style={{ color: "#ffffff" }}
+            >
               L&apos;Ingénierie Tech. <br />
               <span className="bg-gradient-to-r from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent">
                 À son apogée.
@@ -80,36 +104,57 @@ export default async function HomePage() {
             </h1>
 
             {/* Sous-titre & Proposition de valeur ultra-lisible */}
-            <p className="text-base sm:text-lg !text-zinc-200 leading-relaxed font-normal max-w-xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+            <p
+              className="text-base sm:text-lg leading-relaxed font-normal max-w-xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]"
+              style={{ color: "#e4e4e7" }}
+            >
               Une sélection rigoureuse d&apos;appareils électroniques d&apos;exception. Smartphones flagships en titane, ordinateurs de travail avancés et acoustique haute fidélité sous boîte scellée et garantie constructeur au Maroc.
             </p>
 
-            {/* Boutons d'action modernes & contrastés */}
+            {/* Boutons d'action modernes & contrastés (zéro blanc sur blanc) */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/boutique"
-                className="px-8 py-3.5 rounded-xl bg-white hover:bg-zinc-200 !text-black font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 group shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-102 active:scale-98"
+                className="px-8 py-3.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 group shadow-[0_0_25px_rgba(255,255,255,0.25)] hover:scale-102 active:scale-98"
+                style={{
+                  backgroundColor: "#ffffff",
+                  color: "#000000",
+                }}
               >
                 <span>Explorer le catalogue</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/boutique?sort=new"
-                className="px-7 py-3.5 rounded-xl bg-zinc-900/85 hover:bg-zinc-800 !text-white backdrop-blur-md border border-zinc-700/80 hover:border-zinc-500 font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg"
+                className="px-7 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 hover:border-zinc-400 shadow-lg hover:scale-102 active:scale-98"
+                style={{
+                  backgroundColor: "rgba(24, 24, 27, 0.88)",
+                  border: "1px solid rgba(113, 113, 122, 0.55)",
+                  color: "#ffffff",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
               >
                 <span>Nouveaux Arrivages</span>
               </Link>
             </div>
 
             {/* Fiche produit phare discrète */}
-            <div className="mt-4 pt-4 border-t border-zinc-800/80 flex flex-wrap items-center gap-2.5 text-xs !text-zinc-300">
+            <div
+              className="mt-4 pt-4 flex flex-wrap items-center gap-2.5 text-xs w-full max-w-lg"
+              style={{
+                borderTop: "1px solid rgba(63, 63, 70, 0.5)",
+                color: "#d4d4d8",
+              }}
+            >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
               <span>
-                En vedette : <strong className="!text-white font-semibold">Samsung Galaxy S24 Ultra</strong> &amp; Écouteurs Pro
+                En vedette : <strong style={{ color: "#ffffff", fontWeight: 600 }}>Samsung Galaxy S24 Ultra</strong> &amp; Écouteurs Pro
               </span>
               <Link
                 href="/produit/samsung-galaxy-s24-5g-256go-onyx-black"
-                className="!text-cyan-400 hover:!text-cyan-300 font-bold inline-flex items-center gap-0.5 transition-colors ml-1"
+                className="font-bold inline-flex items-center gap-0.5 transition-colors ml-1 hover:underline"
+                style={{ color: "#22d3ee" }}
               >
                 <span>Voir la fiche</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -121,7 +166,7 @@ export default async function HomePage() {
       </section>
 
       {/* ────────────────── 2. BARRE D'ENGAGEMENTS & RÉASSURANCE ────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full -mt-8 sm:-mt-12">
+      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 w-full -mt-8 sm:-mt-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="rounded-xl card-theme p-4 sm:p-5 flex items-center gap-3.5 shadow-sm">
             <div className="w-10 h-10 rounded-lg badge-theme flex items-center justify-center shrink-0">
