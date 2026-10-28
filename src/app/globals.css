@@ -214,3 +214,158 @@ html.light textarea {
   background: var(--border-hover);
   border-radius: 3px;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   DESIGN SPATIAL ARCHITECTURE (STUDIO PEARL & HOLOGRAPHIC LIGHT)
+───────────────────────────────────────────────────────────── */
+:root,
+html.dark {
+  --studio-pearl: #07080c;
+  --studio-surface: #0e1017;
+  --studio-card-bg: rgba(14, 16, 23, 0.78);
+  --holo-blue: #00d2ff;
+  --holo-glow: rgba(0, 210, 255, 0.35);
+  --spatial-text-main: #ffffff;
+  --spatial-text-muted: #94a3b8;
+  --spatial-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.08),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.7),
+    0 20px 45px rgba(0, 0, 0, 0.6);
+  --spatial-shadow-hover:
+    inset 2px 2px 4px rgba(255, 255, 255, 0.15),
+    inset -3px -3px 8px rgba(0, 0, 0, 0.8),
+    0 25px 60px rgba(0, 210, 255, 0.16);
+  --liquid-btn-bg: linear-gradient(135deg, #1e2230, #0f1118);
+  --liquid-btn-border: rgba(0, 210, 255, 0.4);
+}
+
+html.light {
+  --studio-pearl: oklch(97% 0.01 240);
+  --studio-surface: #ffffff;
+  --studio-card-bg: rgba(255, 255, 255, 0.9);
+  --holo-blue: oklch(55% 0.2 250);
+  --holo-glow: rgba(37, 99, 235, 0.25);
+  --spatial-text-main: oklch(20% 0.05 240);
+  --spatial-text-muted: #64748b;
+  --spatial-shadow:
+    inset 4px 4px 10px rgba(255, 255, 255, 0.95),
+    inset -4px -4px 15px rgba(0, 0, 0, 0.04),
+    10px 20px 40px rgba(0, 0, 0, 0.06);
+  --spatial-shadow-hover:
+    inset 6px 6px 15px rgba(255, 255, 255, 1),
+    inset -6px -6px 20px rgba(0, 0, 0, 0.03),
+    15px 30px 50px rgba(0, 0, 0, 0.09);
+  --liquid-btn-bg: linear-gradient(135deg, #ffffff, var(--studio-pearl));
+  --liquid-btn-border: rgba(37, 99, 235, 0.35);
+}
+
+.fractal-container {
+  container-type: inline-size;
+  container-name: spatial-canvas;
+  position: relative;
+}
+
+.video-anchor {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 58vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 150% 120% at 100% 50%, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 150% 120% at 100% 50%, black 60%, transparent 100%);
+}
+
+.video-anchor video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.1) contrast(1.05);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.glass-portal {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(0, 210, 255, 0.16) 0%, transparent 55%);
+  mix-blend-mode: soft-light;
+}
+
+.sculpted-volume {
+  background: var(--studio-card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--spatial-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.75rem;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+}
+
+.sculpted-volume:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: var(--spatial-shadow-hover);
+  border-color: var(--liquid-btn-border);
+}
+
+.liquid-mercury-btn {
+  background: var(--liquid-btn-bg);
+  box-shadow:
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.4),
+    0 6px 16px rgba(0, 0, 0, 0.25);
+  color: var(--holo-blue);
+  border: 1px solid var(--liquid-btn-border);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.liquid-mercury-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.liquid-mercury-btn:hover::before {
+  left: 100%;
+}
+
+.liquid-mercury-btn:active {
+  transform: scale(0.98);
+}
+
+.gradient-text-spatial {
+  background: linear-gradient(120deg, var(--spatial-text-main) 30%, var(--holo-blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-reveal].in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spatial-sku {
+  view-transition-name: active-sku;
+}
+
+@media (max-width: 768px) {
+  .video-anchor {
+    width: 100vw;
+    opacity: 0.35;
+  }
+}
