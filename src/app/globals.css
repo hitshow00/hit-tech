@@ -64,6 +64,19 @@
 /* ─────────────────────────────────────────────────────────────
    CLASSES SÉMANTIQUES UNIFIÉES (FONCTIONNENT EN DARK ET WHITE)
 ───────────────────────────────────────────────────────────── */
+.hero-cinematic {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.hero-cinematic h1,
+.hero-cinematic h2,
+.hero-cinematic h3 {
+  color: #ffffff !important;
+}
+.hero-cinematic p {
+  color: #e4e4e7 !important;
+}
+
 .text-main {
   color: var(--text-main) !important;
 }

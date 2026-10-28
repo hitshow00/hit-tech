@@ -32,77 +32,87 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-24">
       {/* ────────────────── 1. HERO SECTION CINÉMATIQUE AVEC VIDÉO 3D EN ARRIÈRE-PLAN ────────────────── */}
-      <section className="relative overflow-hidden min-h-[80vh] md:min-h-[85vh] flex items-center border-b border-theme bg-black">
+      <section className="relative overflow-hidden min-h-[82vh] md:min-h-[88vh] flex items-center border-b border-zinc-900 bg-black hero-cinematic">
         
-        {/* Vidéo 3D en arrière-plan immersif */}
+        {/* Vidéo 3D Flow AI : Rendu ultra-net sur la droite avec fondu cinéma vers le noir pur à gauche */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <video
-            src="/media/hero-3d.mp4"
-            poster="/media/hero-3d-poster.jpg"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover object-center opacity-45 md:opacity-50 scale-102 transition-opacity duration-1000"
-          />
-          {/* Gradients de lisibilité et fondu cinéma */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-black/35" />
+          {/* Conteneur vidéo ancré à droite sur desktop pour laisser le texte respirer à 100% sur fond noir */}
+          <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[65%] h-full">
+            <video
+              src="/media/hero-3d.mp4"
+              poster="/media/hero-3d-poster.jpg"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="w-full h-full object-cover object-[70%_center] lg:object-center opacity-90 contrast-[1.08] saturate-[1.08]"
+            />
+            {/* Fondu cinéma horizontal pour fondre la vidéo dans le noir pur */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 lg:via-black/30 to-transparent" />
+          </div>
+
+          {/* Fondu vertical cinéma haut et bas */}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+          
+          {/* Zone de lisibilité absolue à gauche : noir pur sous le texte */}
+          <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[45%] bg-gradient-to-r from-black via-black to-transparent" />
         </div>
 
-        {/* Contenu textuel survolant la vidéo */}
+        {/* Contenu textuel survolant la vidéo avec clarté et contraste absolus */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-16 md:py-24">
           <div className="max-w-2xl flex flex-col items-start gap-6">
             
-            {/* Badge de collection officielle */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/15 text-xs font-medium shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="tracking-widest uppercase text-[10px] font-mono text-zinc-300">
+            {/* Badge officiel en verre givré avec puce luminescente */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-xl text-white shadow-xl">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]" />
+              <span className="tracking-widest uppercase text-[10px] sm:text-[11px] font-mono font-semibold !text-zinc-100">
                 Sélection Officielle • Édition 2026
               </span>
             </div>
 
-            {/* Titre Principal Cinématique */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.04]">
+            {/* Titre Principal Cinématique Luminescent */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black !text-white tracking-tight leading-[1.04] drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
               L&apos;Ingénierie Tech. <br />
-              <span className="text-zinc-400 font-light">À son apogée.</span>
+              <span className="bg-gradient-to-r from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent">
+                À son apogée.
+              </span>
             </h1>
 
-            {/* Sous-titre & Proposition de valeur */}
-            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-normal max-w-xl">
+            {/* Sous-titre & Proposition de valeur ultra-lisible */}
+            <p className="text-base sm:text-lg !text-zinc-200 leading-relaxed font-normal max-w-xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
               Une sélection rigoureuse d&apos;appareils électroniques d&apos;exception. Smartphones flagships en titane, ordinateurs de travail avancés et acoustique haute fidélité sous boîte scellée et garantie constructeur au Maroc.
             </p>
 
-            {/* Boutons d'action modernes */}
+            {/* Boutons d'action modernes & contrastés */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/boutique"
-                className="px-7 py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 group shadow-xl hover:scale-102 active:scale-98"
+                className="px-8 py-3.5 rounded-xl bg-white hover:bg-zinc-200 !text-black font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 group shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-102 active:scale-98"
               >
                 <span>Explorer le catalogue</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/boutique?sort=new"
-                className="px-6 py-3.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-white backdrop-blur-md border border-white/15 font-semibold text-xs uppercase tracking-wider transition-all flex items-center gap-2"
+                className="px-7 py-3.5 rounded-xl bg-zinc-900/85 hover:bg-zinc-800 !text-white backdrop-blur-md border border-zinc-700/80 hover:border-zinc-500 font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg"
               >
                 <span>Nouveaux Arrivages</span>
               </Link>
             </div>
 
             {/* Fiche produit phare discrète */}
-            <div className="mt-4 pt-4 border-t border-white/15 flex flex-wrap items-center gap-2.5 text-xs text-zinc-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <div className="mt-4 pt-4 border-t border-zinc-800/80 flex flex-wrap items-center gap-2.5 text-xs !text-zinc-300">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
               <span>
-                En vedette : <strong className="text-white font-medium">Samsung Galaxy S24 Ultra</strong> &amp; Écouteurs Pro
+                En vedette : <strong className="!text-white font-semibold">Samsung Galaxy S24 Ultra</strong> &amp; Écouteurs Pro
               </span>
               <Link
                 href="/produit/samsung-galaxy-s24-5g-256go-onyx-black"
-                className="text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-0.5 transition-colors ml-1"
+                className="!text-cyan-400 hover:!text-cyan-300 font-bold inline-flex items-center gap-0.5 transition-colors ml-1"
               >
                 <span>Voir la fiche</span>
-                <ChevronRight className="w-3 h-3" />
+                <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
