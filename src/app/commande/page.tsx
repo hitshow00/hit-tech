@@ -18,10 +18,12 @@ export default async function CommandePage() {
     getCartSummary(user?.id),
     getShippingCities(),
     user
-      ? prisma.address.findFirst({
-          where: { userId: user.id },
-          orderBy: { isDefault: "desc" },
-        })
+      ? prisma.address
+          .findFirst({
+            where: { userId: user.id },
+            orderBy: { isDefault: "desc" },
+          })
+          .catch(() => null)
       : null,
   ]);
 

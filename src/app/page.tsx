@@ -43,6 +43,7 @@ export default async function HomePage() {
             loop
             muted
             playsInline
+            preload="auto"
             className="w-full h-full object-cover object-center opacity-45 md:opacity-50 scale-102 transition-opacity duration-1000"
           />
           {/* Gradients de lisibilité et fondu cinéma */}
