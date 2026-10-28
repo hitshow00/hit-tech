@@ -4,6 +4,7 @@ import { getCartSummary } from "@/lib/cart";
 import { Role } from "@/lib/prisma";
 import { ThemeToggle } from "./ThemeToggle";
 import { SpatialMobileMenu } from "./SpatialMobileMenu";
+import { ScrollRevealHeader } from "./ScrollRevealHeader";
 import {
   Smartphone,
   Laptop,
@@ -40,14 +41,15 @@ export async function Header() {
   const isAdmin = user?.role === Role.ADMIN || user?.role === Role.STAFF;
 
   return (
-    <header className="sticky top-0 z-40 w-full header-theme transition-all">
-      {/* Ligne d'accent luminescent cyan spatial sur la bordure basse */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent pointer-events-none" />
+    <ScrollRevealHeader>
+      <header className="w-full header-theme transition-all">
+        {/* Ligne d'accent luminescent cyan spatial sur la bordure basse */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent pointer-events-none" />
 
-      {/* Barre de Navigation Principale Spatiale */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        
-        {/* ── 1. LOGO & MONOGRAMME HIT TECH STATUTAIRE ── */}
+        {/* Barre de Navigation Principale Spatiale */}
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+          
+          {/* ── 1. LOGO & MONOGRAMME HIT TECH STATUTAIRE ── */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0">
           <div
             className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs tracking-wider transition-all group-hover:scale-105"
@@ -227,5 +229,6 @@ export async function Header() {
 
       </nav>
     </header>
+  </ScrollRevealHeader>
   );
 }

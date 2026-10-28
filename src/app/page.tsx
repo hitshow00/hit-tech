@@ -31,10 +31,10 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-24">
-      {/* ────────────────── 1. HERO SECTION CINÉMATIQUE AVEC VIDÉO 3D EN ARRIÈRE-PLAN ────────────────── */}
-      <section className="relative overflow-hidden min-h-[82vh] md:min-h-[88vh] flex items-center bg-black hero-cinematic">
+      {/* ────────────────── 1. HERO SECTION CINÉMATIQUE STYLE KOMOOT / AWWWARDS ────────────────── */}
+      <section className="relative overflow-hidden min-h-screen flex items-center bg-black hero-cinematic">
         
-        {/* Vidéo 3D Flow AI : Immersion pleine largeur avec dégradés cinéma progressifs multi-points (0 coupure) */}
+        {/* Vidéo 3D Flow AI : Plein écran immersif avec dégradé cinéma continu sans aucune rupture */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <video
             src="/media/hero-3d.mp4"
@@ -47,7 +47,7 @@ export default async function HomePage() {
             className="w-full h-full object-cover object-[75%_center] lg:object-[68%_center] opacity-85 contrast-[1.06] saturate-[1.08] transition-opacity duration-1000"
           />
 
-          {/* Dégradé horizontal continu : Noir pur à gauche (zone texte) vers transparence veloutée à droite (zone 3D) */}
+          {/* Dégradé horizontal continu : Noir pur à gauche sous le texte, transition soyeuse vers la 3D à droite */}
           <div
             className="absolute inset-0"
             style={{
@@ -56,111 +56,120 @@ export default async function HomePage() {
             }}
           />
 
-          {/* Dégradé vertical haut & bas : Fondu doux vers le header et la suite de la page */}
+          {/* Dégradé vertical haut & bas : Intégration parfaite dans le noir absolu */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 18%, transparent 75%, #000000 100%)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 20%, transparent 75%, #000000 100%)",
             }}
           />
         </div>
 
-        {/* Ligne de séparation basse en dégradé subtil (sans coupure franche) */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent z-10" />
+        {/* Ligne basse en dégradé subtil */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-800/80 to-transparent z-10" />
 
-        {/* Contenu textuel survolant la vidéo avec clarté et contraste absolus */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-16 md:py-24">
+        {/* Contenu textuel épuré & concis (Style Awwwards / Komoot - zéro texte verbeux) */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-24 md:py-32">
           <div className="max-w-2xl flex flex-col items-start gap-6">
             
-            {/* Badge officiel en verre givré sombre (fond sombre garanti, texte blanc 100% lisible) */}
+            {/* Badge officiel discret */}
             <div
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full shadow-xl"
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full shadow-lg"
               style={{
-                backgroundColor: "rgba(18, 18, 20, 0.90)",
-                border: "1px solid rgba(82, 82, 91, 0.65)",
+                backgroundColor: "rgba(18, 18, 20, 0.85)",
+                border: "1px solid rgba(82, 82, 91, 0.60)",
                 backdropFilter: "blur(16px)",
                 WebkitBackdropFilter: "blur(16px)",
               }}
             >
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]" />
               <span
-                className="tracking-widest uppercase text-[10px] sm:text-[11px] font-mono font-semibold"
+                className="tracking-widest uppercase text-[10px] font-mono font-semibold"
                 style={{ color: "#ffffff" }}
               >
-                Sélection Officielle • Édition 2026
+                Hit Tech Maroc • Édition 2026
               </span>
             </div>
 
-            {/* Titre Principal Cinématique Luminescent */}
+            {/* Titre Magistral & Impactant */}
             <h1
-              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.04] drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
+              className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.98] drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]"
               style={{ color: "#ffffff" }}
             >
-              L&apos;Ingénierie Tech. <br />
-              <span className="bg-gradient-to-r from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent">
+              L&apos;Ingénierie tech. <br />
+              <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
                 À son apogée.
               </span>
             </h1>
 
-            {/* Sous-titre & Proposition de valeur ultra-lisible */}
+            {/* Sous-titre concis & percutant (1 phrase essentielle au lieu de 3 lignes verbeuses) */}
             <p
-              className="text-base sm:text-lg leading-relaxed font-normal max-w-xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]"
+              className="text-lg sm:text-xl font-light leading-relaxed max-w-xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
               style={{ color: "#e4e4e7" }}
             >
-              Une sélection rigoureuse d&apos;appareils électroniques d&apos;exception. Smartphones flagships en titane, ordinateurs de travail avancés et acoustique haute fidélité sous boîte scellée et garantie constructeur au Maroc.
+              Smartphones en titane, stations de travail et acoustique d&apos;exception. Sous garantie constructeur officielle au Maroc.
             </p>
 
-            {/* Boutons d'action modernes & contrastés (zéro blanc sur blanc) */}
+            {/* Boutons d'action épurés & modernes */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/boutique"
-                className="px-8 py-3.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 group shadow-[0_0_25px_rgba(255,255,255,0.25)] hover:scale-102 active:scale-98"
+                className="px-8 py-3.5 rounded-full font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 group shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:scale-105 active:scale-95"
                 style={{
                   backgroundColor: "#ffffff",
                   color: "#000000",
                 }}
               >
-                <span>Explorer le catalogue</span>
+                <span>Explorer</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/boutique?sort=new"
-                className="px-7 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 hover:border-zinc-400 shadow-lg hover:scale-102 active:scale-98"
+                className="px-7 py-3.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 hover:border-zinc-400 shadow-lg hover:scale-105 active:scale-98"
                 style={{
-                  backgroundColor: "rgba(24, 24, 27, 0.88)",
+                  backgroundColor: "rgba(24, 24, 27, 0.85)",
                   border: "1px solid rgba(113, 113, 122, 0.55)",
                   color: "#ffffff",
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
                 }}
               >
-                <span>Nouveaux Arrivages</span>
+                <span>Nouveautés</span>
               </Link>
             </div>
 
-            {/* Fiche produit phare discrète */}
+            {/* Micro-pastille en vedette */}
             <div
-              className="mt-4 pt-4 flex flex-wrap items-center gap-2.5 text-xs w-full max-w-lg"
+              className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs"
               style={{
-                borderTop: "1px solid rgba(63, 63, 70, 0.5)",
+                backgroundColor: "rgba(18, 18, 20, 0.70)",
+                border: "1px solid rgba(63, 63, 70, 0.45)",
                 color: "#d4d4d8",
               }}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-              <span>
-                En vedette : <strong style={{ color: "#ffffff", fontWeight: 600 }}>Samsung Galaxy S24 Ultra</strong> &amp; Écouteurs Pro
-              </span>
+              <span>Galaxy S24 Ultra &amp; Audio Pro</span>
               <Link
                 href="/produit/samsung-galaxy-s24-5g-256go-onyx-black"
-                className="font-bold inline-flex items-center gap-0.5 transition-colors ml-1 hover:underline"
+                className="font-bold inline-flex items-center gap-0.5 ml-1 hover:underline"
                 style={{ color: "#22d3ee" }}
               >
-                <span>Voir la fiche</span>
+                <span>Découvrir</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
+          </div>
+        </div>
+
+        {/* Indicateur de défilement subtil invitant au scroll (Style Awwwards / Komoot) */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none opacity-60">
+          <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-400">
+            Défiler pour explorer
+          </span>
+          <div className="w-4 h-7 rounded-full border border-zinc-600/80 flex items-start justify-center p-1">
+            <div className="w-1 h-1.5 rounded-full bg-cyan-400 animate-bounce" />
           </div>
         </div>
       </section>
@@ -173,8 +182,8 @@ export default async function HomePage() {
               <ShieldCheck className="w-5 h-5 text-main" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-main">100% Neuf &amp; Scellé</h4>
-              <p className="text-[11px] text-muted">Boîte d&apos;origine constructeur sous blister officiel</p>
+              <h4 className="text-xs font-bold text-main">Neuf &amp; Scellé</h4>
+              <p className="text-[11px] text-muted">Boîte d&apos;origine sous blister officiel</p>
             </div>
           </div>
 
@@ -183,8 +192,8 @@ export default async function HomePage() {
               <Truck className="w-5 h-5 text-main" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-main">Livraison Express 24h/48h</h4>
-              <p className="text-[11px] text-muted">Casablanca, Rabat, Marrakech et partout au Maroc</p>
+              <h4 className="text-xs font-bold text-main">Livraison 24h/48h</h4>
+              <p className="text-[11px] text-muted">Expédition sécurisée partout au Maroc</p>
             </div>
           </div>
 
@@ -193,8 +202,8 @@ export default async function HomePage() {
               <Sparkles className="w-5 h-5 text-main" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-main">Garantie Constructeur</h4>
-              <p className="text-[11px] text-muted">SAV officiel et assistance 12 à 24 mois</p>
+              <h4 className="text-xs font-bold text-main">Garantie 12-24 Mois</h4>
+              <p className="text-[11px] text-muted">SAV officiel &amp; assistance certifiée</p>
             </div>
           </div>
         </div>
@@ -205,10 +214,10 @@ export default async function HomePage() {
         <div className="flex items-end justify-between mb-8 pb-4 border-b border-theme">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-muted">
-              Rayons
+              Univers
             </span>
             <h2 className="text-2xl font-black text-main mt-1">
-              Catégories Principales
+              Écosystème Matériel
             </h2>
           </div>
           <Link
