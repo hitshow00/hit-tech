@@ -21,6 +21,6 @@ function createPrismaClient(): PrismaClient {
 
 export const prisma = globalThis.__prisma ?? createPrismaClient();
 
-if (process.env.NODE_ENV !== "production") {
-  globalThis.__prisma = prisma;
-}
+// Toujours persister l'instance globale pour réutiliser la connexion et éviter
+// la saturation du pool en environnement serverless (Vercel)
+globalThis.__prisma = prisma;

@@ -15,8 +15,26 @@ import {
 } from "lucide-react";
 
 export async function Header() {
-  const { user } = await getCurrentUser();
-  const cartSummary = await getCartSummary(user?.id);
+  let user = null;
+  let cartSummary = null;
+
+  try {
+    const authResult = await getCurrentUser();
+    user = authResult.user;
+  } catch (e: any) {
+    if (e?.digest === "DYNAMIC_SERVER_USAGE" || e?.digest?.startsWith?.("NEXT_")) {
+      throw e;
+    }
+  }
+
+  try {
+    cartSummary = await getCartSummary(user?.id);
+  } catch (e: any) {
+    if (e?.digest === "DYNAMIC_SERVER_USAGE" || e?.digest?.startsWith?.("NEXT_")) {
+      throw e;
+    }
+  }
+
   const itemCount = cartSummary?.itemCount ?? 0;
   const isAdmin = user?.role === Role.ADMIN || user?.role === Role.STAFF;
 

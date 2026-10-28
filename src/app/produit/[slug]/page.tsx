@@ -243,7 +243,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-white text-xs">
-                        {rev.user.firstName} {rev.user.lastName ? rev.user.lastName.charAt(0) + "." : ""}
+                        {rev.user?.firstName || "Client"} {rev.user?.lastName ? rev.user.lastName.charAt(0) + "." : ""}
                       </span>
                       {rev.verifiedPurchase && (
                         <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-medium">

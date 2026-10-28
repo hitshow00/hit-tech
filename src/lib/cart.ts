@@ -103,128 +103,136 @@ export async function getOrCreateCartId(userId?: string | null): Promise<string>
 }
 
 export async function getCartSummary(userId?: string | null): Promise<CartSummary | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(CART_COOKIE_NAME)?.value;
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(CART_COOKIE_NAME)?.value;
 
-  let cart = null;
-  if (token) {
-    const tokenHash = hashToken(token);
-    cart = await prisma.cart.findUnique({
-      where: { tokenHash },
-      include: {
-        items: {
-          include: {
-            product: {
-              include: {
-                images: {
-                  orderBy: { position: "asc" },
-                  take: 1,
+    let cart = null;
+    if (token) {
+      const tokenHash = hashToken(token);
+      cart = await prisma.cart.findUnique({
+        where: { tokenHash },
+        include: {
+          items: {
+            include: {
+              product: {
+                include: {
+                  images: {
+                    orderBy: { position: "asc" },
+                    take: 1,
+                  },
                 },
               },
             },
           },
         },
-      },
-    });
-  } else if (userId) {
-    cart = await prisma.cart.findFirst({
-      where: { userId },
-      orderBy: { updatedAt: "desc" },
-      include: {
-        items: {
-          include: {
-            product: {
-              include: {
-                images: {
-                  orderBy: { position: "asc" },
-                  take: 1,
+      });
+    } else if (userId) {
+      cart = await prisma.cart.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: "desc" },
+        include: {
+          items: {
+            include: {
+              product: {
+                include: {
+                  images: {
+                    orderBy: { position: "asc" },
+                    take: 1,
+                  },
                 },
               },
             },
           },
         },
-      },
+      });
+    }
+
+    if (!cart) {
+      return null;
+    }
+
+    const settings = await prisma.storeSettings.findFirst().catch(() => null);
+    const freeThreshold = settings?.freeShippingThreshold ?? null;
+
+    const items: CartSummaryItem[] = cart.items.map((ci) => {
+      const p = ci.product;
+      const isAvailable = p.status === ProductStatus.PUBLISHED && p.stock > 0;
+      const lineTotal = p.price * ci.quantity;
+      return {
+        id: ci.id,
+        productId: p.id,
+        name: p.name,
+        slug: p.slug,
+        sku: p.sku,
+        imageUrl: p.images[0]?.thumbUrl ?? p.images[0]?.url ?? null,
+        imageAlt: p.images[0]?.alt ?? p.name,
+        unitPrice: p.price,
+        compareAtPrice: p.compareAtPrice,
+        quantity: ci.quantity,
+        stock: p.stock,
+        lineTotal,
+        available: isAvailable,
+      };
     });
-  }
 
-  if (!cart) {
-    return null;
-  }
+    const subtotal = items
+      .filter((i) => i.available)
+      .reduce((acc, curr) => acc + curr.lineTotal, 0);
 
-  const settings = await prisma.storeSettings.findFirst();
-  const freeThreshold = settings?.freeShippingThreshold ?? null;
+    const itemCount = items.reduce((acc, curr) => acc + curr.quantity, 0);
 
-  const items: CartSummaryItem[] = cart.items.map((ci) => {
-    const p = ci.product;
-    const isAvailable = p.status === ProductStatus.PUBLISHED && p.stock > 0;
-    const lineTotal = p.price * ci.quantity;
-    return {
-      id: ci.id,
-      productId: p.id,
-      name: p.name,
-      slug: p.slug,
-      sku: p.sku,
-      imageUrl: p.images[0]?.thumbUrl ?? p.images[0]?.url ?? null,
-      imageAlt: p.images[0]?.alt ?? p.name,
-      unitPrice: p.price,
-      compareAtPrice: p.compareAtPrice,
-      quantity: ci.quantity,
-      stock: p.stock,
-      lineTotal,
-      available: isAvailable,
-    };
-  });
-
-  const subtotal = items
-    .filter((i) => i.available)
-    .reduce((acc, curr) => acc + curr.lineTotal, 0);
-
-  const itemCount = items.reduce((acc, curr) => acc + curr.quantity, 0);
-
-  // Remise si un code promo est présent
-  let discountTotal = 0;
-  if (cart.discountCode && subtotal > 0) {
-    const discount = await prisma.discountCode.findUnique({
-      where: { code: cart.discountCode.toUpperCase() },
-    });
-    if (
-      discount &&
-      discount.isActive &&
-      (!discount.startsAt || discount.startsAt <= new Date()) &&
-      (!discount.endsAt || discount.endsAt >= new Date()) &&
-      (!discount.maxUses || discount.usedCount < discount.maxUses) &&
-      subtotal >= discount.minSubtotal
-    ) {
-      if (discount.type === "PERCENT") {
-        discountTotal = Math.round((subtotal * discount.value) / 100);
-      } else {
-        discountTotal = Math.min(discount.value, subtotal);
+    // Remise si un code promo est présent
+    let discountTotal = 0;
+    if (cart.discountCode && subtotal > 0) {
+      const discount = await prisma.discountCode.findUnique({
+        where: { code: cart.discountCode.toUpperCase() },
+      }).catch(() => null);
+      if (
+        discount &&
+        discount.isActive &&
+        (!discount.startsAt || discount.startsAt <= new Date()) &&
+        (!discount.endsAt || discount.endsAt >= new Date()) &&
+        (!discount.maxUses || discount.usedCount < discount.maxUses) &&
+        subtotal >= discount.minSubtotal
+      ) {
+        if (discount.type === "PERCENT") {
+          discountTotal = Math.round((subtotal * discount.value) / 100);
+        } else {
+          discountTotal = Math.min(discount.value, subtotal);
+        }
       }
     }
+
+    const netSubtotal = Math.max(0, subtotal - discountTotal);
+
+    // Livraison par défaut (calculée avec seuil de gratuité)
+    const defaultShippingFee = 3500; // 35 DH par défaut pour le Maroc
+    const qualifiesForFreeShipping = freeThreshold !== null && netSubtotal >= freeThreshold;
+    const shippingFee = qualifiesForFreeShipping || items.length === 0 ? 0 : defaultShippingFee;
+    const amountNeededForFreeShipping =
+      freeThreshold !== null && netSubtotal < freeThreshold
+        ? freeThreshold - netSubtotal
+        : 0;
+
+    return {
+      id: cart.id,
+      items,
+      itemCount,
+      subtotal,
+      discountCode: cart.discountCode,
+      discountTotal,
+      shippingFee,
+      freeShippingThreshold: freeThreshold,
+      qualifiesForFreeShipping,
+      amountNeededForFreeShipping,
+      grandTotal: netSubtotal + shippingFee,
+    };
+  } catch (error: any) {
+    if (error?.digest === "DYNAMIC_SERVER_USAGE" || error?.digest?.startsWith?.("NEXT_")) {
+      throw error;
+    }
+    console.error("getCartSummary error:", error);
+    return null;
   }
-
-  const netSubtotal = Math.max(0, subtotal - discountTotal);
-
-  // Livraison par défaut (calculée avec seuil de gratuité)
-  const defaultShippingFee = 3500; // 35 DH par défaut pour le Maroc
-  const qualifiesForFreeShipping = freeThreshold !== null && netSubtotal >= freeThreshold;
-  const shippingFee = qualifiesForFreeShipping || items.length === 0 ? 0 : defaultShippingFee;
-  const amountNeededForFreeShipping =
-    freeThreshold !== null && netSubtotal < freeThreshold
-      ? freeThreshold - netSubtotal
-      : 0;
-
-  return {
-    id: cart.id,
-    items,
-    itemCount,
-    subtotal,
-    discountCode: cart.discountCode,
-    discountTotal,
-    shippingFee,
-    freeShippingThreshold: freeThreshold,
-    qualifiesForFreeShipping,
-    amountNeededForFreeShipping,
-    grandTotal: netSubtotal + shippingFee,
-  };
 }
