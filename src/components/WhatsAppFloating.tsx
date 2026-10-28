@@ -7,7 +7,7 @@ export function WhatsAppFloating() {
   const pathname = usePathname();
 
   // Ne pas afficher sur les pages d'administration
-  if (pathname.startsWith("/admin")) {
+  if (pathname?.startsWith("/admin")) {
     return null;
   }
 
