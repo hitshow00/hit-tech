@@ -208,9 +208,12 @@ async function main() {
   const brandsData = [
     { name: "Apple", slug: "apple", description: "iPhone, MacBook, iPad et accessoires officiels." },
     { name: "Samsung", slug: "samsung", description: "Smartphones Galaxy, tablettes et montres connectées." },
+    { name: "Honor", slug: "honor", description: "Smartphones haute technologie spécialisés en photographie portrait." },
+    { name: "Dell", slug: "dell", description: "PC portables professionnels Latitude, XPS et stations de travail." },
     { name: "Xiaomi", slug: "xiaomi", description: "Le meilleur rapport qualité/prix tech au Maroc." },
     { name: "Lenovo", slug: "lenovo", description: "PC portables ThinkPad, IdeaPad et gaming Legion." },
     { name: "Sony", slug: "sony", description: "Casques audio premium antibruit et écouteurs sans fil." },
+    { name: "Hit Tech", slug: "hit-tech", description: "Accessoires certifiés, batteries haute densité et équipements Hit Tech." },
   ];
 
   const brandMap = new Map<string, string>();
@@ -268,6 +271,17 @@ async function main() {
       seoDescription: "Casques audio antibruit, AirPods et écouteurs sans fil au Maroc. Son haute qualité, réduction de bruit active, livraison à domicile.",
       featured: true,
       position: 4,
+    },
+    {
+      name: "Accessoires & Énergie",
+      slug: "accessoires",
+      description: "Chargeurs ultra-rapides, batteries externes haute capacité et accessoires certifiés.",
+      content:
+        "Accessoires essentiels pour vos équipements technologiques : Power Delivery 65W, câbles renforcés et protections pour ordinateurs et smartphones.",
+      seoTitle: "Accessoires Tech & Batteries Externes Maroc | Hit Tech",
+      seoDescription: "Achetez vos batteries externes rapides et accessoires certifiés au Maroc. Livraison rapide à Casablanca et partout au Maroc.",
+      featured: true,
+      position: 5,
     },
   ];
 

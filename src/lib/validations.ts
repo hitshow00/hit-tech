@@ -96,3 +96,4 @@ export const contactInputSchema = z.object({
     .max(3000, "Le message ne peut pas dépasser 3000 caractères."),
   orderNumber: z.string().trim().max(50).optional().nullable(),
 });
+

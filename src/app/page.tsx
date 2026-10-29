@@ -149,9 +149,9 @@ export default async function HomePage() {
               }}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-              <span>Galaxy S24 Ultra &amp; Audio Pro</span>
+              <span>Galaxy S25 Ultra 5G &amp; iPhone 15 Pro</span>
               <Link
-                href="/produit/samsung-galaxy-s24-5g-256go-onyx-black"
+                href="/produit/samsung-galaxy-s25-ultra-5g-512go-titane-noir"
                 className="font-bold inline-flex items-center gap-0.5 ml-1 hover:underline"
                 style={{ color: "#22d3ee" }}
               >
