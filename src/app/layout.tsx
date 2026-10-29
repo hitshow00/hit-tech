@@ -60,20 +60,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `(function(){
               try {
-                var theme = localStorage.getItem('hit-tech-theme');
-                if (theme === 'light') {
-                  document.documentElement.classList.remove('dark');
-                  document.documentElement.classList.add('light');
-                } else {
-                  document.documentElement.classList.remove('light');
-                  document.documentElement.classList.add('dark');
-                }
+                localStorage.removeItem('hit-tech-theme');
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
               } catch(e) {}
             })()`,
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-black text-zinc-100 antialiased selection:bg-white selection:text-black">
+      <body className="min-h-screen flex flex-col bg-black text-white antialiased selection:bg-white selection:text-black">
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />

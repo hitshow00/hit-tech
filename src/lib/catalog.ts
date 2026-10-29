@@ -49,9 +49,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_s25_ultra-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_s25_ultra-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_s25_ultra-ht2026-160.webp",
+        "url": "/media/products/phone_s25_ultra-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_s25_ultra-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_s25_ultra-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy S25 Ultra 5G Titane Noir"
       }
     ],
@@ -120,9 +120,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_s25-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_s25-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_s25-ht2026-160.webp",
+        "url": "/media/products/phone_s25-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_s25-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_s25-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy S25 5G Bleu Minéral"
       }
     ],
@@ -183,9 +183,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_s24_ultra-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_s24_ultra-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_s24_ultra-ht2026-160.webp",
+        "url": "/media/products/phone_s24_ultra-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_s24_ultra-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_s24_ultra-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy S24 Ultra 5G Gris Titane"
       }
     ],
@@ -242,9 +242,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_z_flip_6-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_z_flip_6-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_z_flip_6-ht2026-160.webp",
+        "url": "/media/products/phone_z_flip_6-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_z_flip_6-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_z_flip_6-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy Z Flip 6 5G Menthe"
       }
     ],
@@ -301,9 +301,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_z_fold_6-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_z_fold_6-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_z_fold_6-ht2026-160.webp",
+        "url": "/media/products/phone_z_fold_6-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_z_fold_6-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_z_fold_6-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy Z Fold 6 5G Noir Anthracite"
       }
     ],
@@ -360,9 +360,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_iphone15_pro-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_iphone15_pro-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_iphone15_pro-ht2026-160.webp",
+        "url": "/media/products/phone_iphone15_pro-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_iphone15_pro-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_iphone15_pro-ht2026-v2-160.webp",
         "alt": "Apple iPhone 15 Pro Titane Naturel"
       }
     ],
@@ -419,9 +419,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_iphone15_black-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_iphone15_black-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_iphone15_black-ht2026-160.webp",
+        "url": "/media/products/phone_iphone15_black-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_iphone15_black-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_iphone15_black-ht2026-v2-160.webp",
         "alt": "Apple iPhone 15 256 Go Noir Sidéral"
       }
     ],
@@ -474,9 +474,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_iphone13_mini-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_iphone13_mini-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_iphone13_mini-ht2026-160.webp",
+        "url": "/media/products/phone_iphone13_mini-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_iphone13_mini-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_iphone13_mini-ht2026-v2-160.webp",
         "alt": "Apple iPhone 13 Mini 128 Go Minuit"
       }
     ],
@@ -529,9 +529,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_a56-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_a56-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_a56-ht2026-160.webp",
+        "url": "/media/products/phone_a56-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_a56-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_a56-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy A56 5G Awesome Graphite"
       }
     ],
@@ -588,9 +588,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_a35-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_a35-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_a35-ht2026-160.webp",
+        "url": "/media/products/phone_a35-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_a35-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_a35-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy A35 5G Lilas"
       }
     ],
@@ -643,9 +643,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_a15-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_a15-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_a15-ht2026-160.webp",
+        "url": "/media/products/phone_a15-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_a15-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_a15-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy A15 128 Go Bleu Nuit"
       }
     ],
@@ -698,9 +698,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/phone_honor_200-ht2026-1200.webp",
-        "mediumUrl": "/media/products/phone_honor_200-ht2026-640.webp",
-        "thumbUrl": "/media/products/phone_honor_200-ht2026-160.webp",
+        "url": "/media/products/phone_honor_200-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/phone_honor_200-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/phone_honor_200-ht2026-v2-160.webp",
         "alt": "Honor 200 5G Noir Émeraude"
       }
     ],
@@ -753,9 +753,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/laptop_dell_latitude-ht2026-1200.webp",
-        "mediumUrl": "/media/products/laptop_dell_latitude-ht2026-640.webp",
-        "thumbUrl": "/media/products/laptop_dell_latitude-ht2026-160.webp",
+        "url": "/media/products/laptop_dell_latitude-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/laptop_dell_latitude-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/laptop_dell_latitude-ht2026-v2-160.webp",
         "alt": "Dell Latitude 5540 15,6 pouces Core i7"
       }
     ],
@@ -820,9 +820,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/tablet_galaxy_tab_a8-ht2026-1200.webp",
-        "mediumUrl": "/media/products/tablet_galaxy_tab_a8-ht2026-640.webp",
-        "thumbUrl": "/media/products/tablet_galaxy_tab_a8-ht2026-160.webp",
+        "url": "/media/products/tablet_galaxy_tab_a8-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/tablet_galaxy_tab_a8-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/tablet_galaxy_tab_a8-ht2026-v2-160.webp",
         "alt": "Samsung Galaxy Tab A8 10,5 pouces"
       }
     ],
@@ -875,9 +875,9 @@ export const SEED_PRODUCTS: CatalogProduct[] = [
     },
     "images": [
       {
-        "url": "/media/products/acc_batterie_20000-ht2026-1200.webp",
-        "mediumUrl": "/media/products/acc_batterie_20000-ht2026-640.webp",
-        "thumbUrl": "/media/products/acc_batterie_20000-ht2026-160.webp",
+        "url": "/media/products/acc_batterie_20000-ht2026-v2-1200.webp",
+        "mediumUrl": "/media/products/acc_batterie_20000-ht2026-v2-640.webp",
+        "thumbUrl": "/media/products/acc_batterie_20000-ht2026-v2-160.webp",
         "alt": "Batterie Externe Hit Tech 20000 mAh 65W"
       }
     ],

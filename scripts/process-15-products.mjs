@@ -214,9 +214,9 @@ async function main() {
         .webp({ quality: 80, effort: 4 })
         .toBuffer();
 
-      const f1200 = `${item.key}-ht2026-1200.webp`;
-      const f640 = `${item.key}-ht2026-640.webp`;
-      const f160 = `${item.key}-ht2026-160.webp`;
+      const f1200 = `${item.key}-ht2026-v2-1200.webp`;
+      const f640 = `${item.key}-ht2026-v2-640.webp`;
+      const f160 = `${item.key}-ht2026-v2-160.webp`;
 
       // Sauvegarde dans public/media/products
       await fs.writeFile(path.join(TARGET_PUBLIC, f1200), buf1200);

@@ -10,9 +10,9 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="flex flex-col gap-16 md:gap-24 pb-24">
+    <div className="flex flex-col pb-20">
       {/* ────────────────── 1. HERO SECTION CINÉMATIQUE STYLE KOMOOT / AWWWARDS ────────────────── */}
-      <section className="relative overflow-hidden min-h-screen flex items-center bg-black hero-cinematic">
+      <section className="relative overflow-hidden min-h-[82vh] lg:min-h-[86vh] flex items-center bg-black hero-cinematic">
         
         {/* Vidéo 3D Flow AI : Plein écran immersif avec dégradé cinéma continu */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -47,11 +47,11 @@ export default async function HomePage() {
         </div>
 
         {/* Ligne basse en dégradé subtil */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-800/80 to-transparent z-10" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent z-10" />
 
         {/* Contenu textuel épuré & concis (Style Awwwards / Komoot) */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-24 md:py-32">
-          <div className="max-w-2xl flex flex-col items-start gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full py-16 sm:py-20">
+          <div className="max-w-2xl flex flex-col items-start gap-5 sm:gap-6">
             
             {/* Badge officiel discret */}
             <div
@@ -91,22 +91,17 @@ export default async function HomePage() {
 
             {/* Sous-titre Minimal & Percutant */}
             <p
-              className="text-base sm:text-lg max-w-lg font-normal leading-relaxed drop-shadow-md"
-              style={{ color: "#d4d4d8" }}
+              className="text-sm sm:text-base max-w-lg font-normal leading-relaxed text-zinc-300 drop-shadow-md"
             >
               Smartphones, ordinateurs portables et acoustique de précision.
               Neufs, scellés d&apos;origine, avec garantie officielle et livraison express au Maroc.
             </p>
 
             {/* Actions Primaires Épurées */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            <div className="flex flex-wrap items-center gap-3.5 pt-1">
               <Link
                 href="/boutique"
-                className="px-6 sm:px-7 py-3 rounded-full text-xs font-bold transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.25)]"
-                style={{
-                  backgroundColor: "#ffffff",
-                  color: "#000000",
-                }}
+                className="px-6 sm:px-7 py-3 rounded-full text-xs font-bold transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2 bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.25)]"
               >
                 <span>Explorer le Catalogue</span>
                 <ArrowRight className="w-4 h-4 text-black" />
@@ -114,14 +109,7 @@ export default async function HomePage() {
 
               <Link
                 href="/boutique?sort=new"
-                className="px-6 py-3 rounded-full text-xs font-semibold transition-all duration-300 hover:bg-white/[0.12] active:scale-95"
-                style={{
-                  backgroundColor: "rgba(24, 24, 27, 0.70)",
-                  border: "1px solid rgba(82, 82, 91, 0.60)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  color: "#ffffff",
-                }}
+                className="px-6 py-3 rounded-full text-xs font-semibold transition-all duration-300 hover:bg-white/[0.12] active:scale-95 bg-zinc-900/80 border border-zinc-700/60 text-white backdrop-blur-md"
               >
                 Nouveautés 2026
               </Link>
@@ -129,20 +117,13 @@ export default async function HomePage() {
 
             {/* Micro-Pilule de Vedette */}
             <div
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs mt-2"
-              style={{
-                backgroundColor: "rgba(18, 18, 20, 0.65)",
-                border: "1px solid rgba(63, 63, 70, 0.5)",
-                color: "#a1a1aa",
-                backdropFilter: "blur(8px)",
-              }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs mt-1 bg-zinc-950/70 border border-zinc-800 text-zinc-400 backdrop-blur-md"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
               <span>Galaxy S25 Ultra 5G &amp; iPhone 15 Pro</span>
               <Link
                 href="/produit/samsung-galaxy-s25-ultra-5g-512go-titane-noir"
-                className="font-bold inline-flex items-center gap-0.5 ml-1 hover:underline"
-                style={{ color: "#22d3ee" }}
+                className="font-bold inline-flex items-center gap-0.5 ml-1 text-cyan-400 hover:underline"
               >
                 <span>Découvrir</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -153,33 +134,33 @@ export default async function HomePage() {
         </div>
 
         {/* Indicateur de défilement subtil invitant au scroll */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none opacity-60">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none opacity-60">
           <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-400">
             Défiler pour explorer
           </span>
-          <div className="w-4 h-7 rounded-full border border-zinc-600/80 flex items-start justify-center p-1">
+          <div className="w-4 h-6 rounded-full border border-zinc-600/80 flex items-start justify-center p-1">
             <div className="w-1 h-1.5 rounded-full bg-cyan-400 animate-bounce" />
           </div>
         </div>
       </section>
 
       {/* ────────────────── 2. SÉLECTION DU MOMENT (PRODUITS PHARES) ────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full pt-4 sm:pt-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-theme">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full pt-8 sm:pt-12 pb-14 sm:pb-20">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-zinc-800/80">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">
               Catalogue Officiel
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-main mt-1">
+            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
               Sélection du Moment
             </h2>
           </div>
           <Link
             href="/boutique"
-            className="text-xs font-semibold text-secondary hover:text-main flex items-center gap-1 group transition-colors"
+            className="text-xs font-semibold text-zinc-400 hover:text-cyan-300 flex items-center gap-1.5 group transition-colors"
           >
             <span>Explorer toute la collection</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-cyan-400" />
           </Link>
         </div>
 
@@ -191,22 +172,22 @@ export default async function HomePage() {
       </section>
 
       {/* ────────────────── 3. DERNIERS ARRIVAGES ────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
-        <div className="flex items-end justify-between mb-8 pb-4 border-b border-theme">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full pb-14 sm:pb-20">
+        <div className="flex items-end justify-between mb-8 pb-4 border-b border-zinc-800/80">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">
               Mises à Jour
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-main mt-1">
+            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
               Derniers Arrivages
             </h2>
           </div>
           <Link
             href="/boutique?sort=new"
-            className="text-xs font-semibold text-secondary hover:text-main flex items-center gap-1 group transition-colors"
+            className="text-xs font-semibold text-zinc-400 hover:text-cyan-300 flex items-center gap-1.5 group transition-colors"
           >
             <span>Voir les nouveautés</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-cyan-400" />
           </Link>
         </div>
 
@@ -218,65 +199,65 @@ export default async function HomePage() {
       </section>
 
       {/* ────────────────── 4. AVIS VÉRIFIÉS ────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full pb-14 sm:pb-20">
         <div className="max-w-xl mb-10">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">
             Retour d&apos;Expérience
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-main mt-1">
+          <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
             Avis Vérifiés
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="rounded-xl card-theme p-6 flex flex-col justify-between">
+          <div className="rounded-xl bg-[#0c0c0e] border border-zinc-850 p-6 flex flex-col justify-between shadow-lg">
             <div>
-              <div className="flex items-center gap-1 text-main mb-3">
+              <div className="flex items-center gap-1 text-amber-400 mb-3">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-current text-amber-400" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-current" />
                 ))}
               </div>
-              <p className="text-xs text-secondary leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 « Matériel commandé et reçu sous emballage constructeur scellé d&apos;origine. Les performances du produit correspondent en tous points aux fiches techniques. Service précis et efficace. »
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-theme flex items-center justify-between text-xs">
-              <span className="font-semibold text-main">M. Tazi</span>
-              <span className="text-muted text-[11px]">Client vérifié • Casablanca</span>
+            <div className="pt-4 mt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs">
+              <span className="font-semibold text-white">M. Tazi</span>
+              <span className="text-zinc-500 text-[11px]">Client vérifié • Casablanca</span>
             </div>
           </div>
 
-          <div className="rounded-xl card-theme p-6 flex flex-col justify-between">
+          <div className="rounded-xl bg-[#0c0c0e] border border-zinc-850 p-6 flex flex-col justify-between shadow-lg">
             <div>
-              <div className="flex items-center gap-1 text-main mb-3">
+              <div className="flex items-center gap-1 text-amber-400 mb-3">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-current text-amber-400" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-current" />
                 ))}
               </div>
-              <p className="text-xs text-secondary leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 « Commande traitée rapidement. Emballage robuste garantissant l&apos;intégrité de l&apos;appareil pendant le transport. Fiche technique claire et conforme. »
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-theme flex items-center justify-between text-xs">
-              <span className="font-semibold text-main">K. Alami</span>
-              <span className="text-muted text-[11px]">Client vérifié • Rabat</span>
+            <div className="pt-4 mt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs">
+              <span className="font-semibold text-white">K. Alami</span>
+              <span className="text-zinc-500 text-[11px]">Client vérifié • Rabat</span>
             </div>
           </div>
 
-          <div className="rounded-xl card-theme p-6 flex flex-col justify-between">
+          <div className="rounded-xl bg-[#0c0c0e] border border-zinc-850 p-6 flex flex-col justify-between shadow-lg">
             <div>
-              <div className="flex items-center gap-1 text-main mb-3">
+              <div className="flex items-center gap-1 text-amber-400 mb-3">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-current text-amber-400" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-current" />
                 ))}
               </div>
-              <p className="text-xs text-secondary leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 « Excellente clarté sur les spécifications et le suivi. Expérience d&apos;achat fluide de la commande jusqu&apos;à la réception. »
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-theme flex items-center justify-between text-xs">
-              <span className="font-semibold text-main">Y. Berrada</span>
-              <span className="text-muted text-[11px]">Client vérifié • Marrakech</span>
+            <div className="pt-4 mt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs">
+              <span className="font-semibold text-white">Y. Berrada</span>
+              <span className="text-zinc-500 text-[11px]">Client vérifié • Marrakech</span>
             </div>
           </div>
         </div>

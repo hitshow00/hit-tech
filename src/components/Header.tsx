@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getCartSummary } from "@/lib/cart";
 import { Role } from "@/lib/prisma";
-import { ThemeToggle } from "./ThemeToggle";
 import { SpatialMobileMenu } from "./SpatialMobileMenu";
 import { ScrollRevealHeader } from "./ScrollRevealHeader";
 import {
@@ -126,11 +125,6 @@ export async function Header() {
                 ⌘K
               </span>
             </form>
-
-            {/* Toggle Thème Sombre / Clair */}
-            <div className="hidden sm:flex items-center">
-              <ThemeToggle className="rounded-full bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border-zinc-200 dark:border-zinc-700/60 text-zinc-800 dark:text-white shadow-sm" />
-            </div>
 
             {/* Bouton Panneau Administrateur */}
             {isAdmin && (
