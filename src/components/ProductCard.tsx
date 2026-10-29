@@ -25,7 +25,13 @@ export interface ProductCardData {
   }>;
 }
 
-export function ProductCard({ product }: { product: ProductCardData }) {
+export function ProductCard({
+  product,
+  priority = false,
+}: {
+  product: ProductCardData;
+  priority?: boolean;
+}) {
   const primaryImage = product.images[0];
   const imgSrc = primaryImage?.mediumUrl || primaryImage?.url || "/placeholder-product.webp";
 
@@ -70,9 +76,9 @@ export function ProductCard({ product }: { product: ProductCardData }) {
             src={imgSrc}
             alt={primaryImage?.alt || product.name}
             fill
+            priority={priority}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-105"
-            loading="lazy"
           />
         </div>
       </Link>

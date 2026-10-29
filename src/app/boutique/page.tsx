@@ -247,8 +247,8 @@ export default async function BoutiquePage({ searchParams }: BoutiquePageProps) 
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-              {products.map((p) => (
-                <ProductCard key={p.id} product={p} />
+              {products.map((p, idx) => (
+                <ProductCard key={p.id} product={p} priority={idx < 4} />
               ))}
             </div>
           )}
